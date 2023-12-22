@@ -1,0 +1,125 @@
+﻿@page
+@model Project_test.Pages.ProductViewModel
+@{
+}
+<!-- content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row gx-5">
+            <aside class="col-lg-6">
+                <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                    <a data-fslightbox="mygallery" class="rounded-4" data-type="image" href="#">
+                        <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/img/productView/img-1.jpg" />
+                    </a>
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
+                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-2.jpg" onclick="changeLargeFrameImage(this.src)" />
+                    </a>
+                    <!-- Add similar click event handlers to the remaining thumbnail images -->
+                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
+                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-3.jpg" onclick="changeLargeFrameImage(this.src)" />
+                    </a>
+                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
+                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-4.jpg" onclick="changeLargeFrameImage(this.src)" />
+                    </a>
+                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
+                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-5.jpg" onclick="changeLargeFrameImage(this.src)" />
+                    </a>
+                </div>
+            </aside>
+
+            <script>
+                function changeLargeFrameImage(src) {
+                    var largeFrameImage = document.getElementById("large-frame-image");
+                    largeFrameImage.src = src;
+                }
+            </script>
+            <main class="col-lg-6">
+                <div class="ps-lg-3">
+                    <h4 class="title text-dark">
+                        Product <br />
+                        Category
+                    </h4>
+                    <div class="d-flex flex-row my-3">
+                        <div class="text-warning mb-1 me-2">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="ms-1">
+                                4.5
+                            </span>
+                        </div>
+                        <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
+                        <span class="text-success ms-2"> In stock</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <span class="h5">$75.00</span>
+                    </div>
+
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Metus aliquam eleifend mi in nulla posuere. Orci porta non pulvinar neque. Viverra orci sagittis eu volutpat. Nullam eget felis eget nunc lobortis. Tristique sollicitudin nibh sit amet commodo nulla. Cras sed felis eget velit aliquet sagittis. Orci porta non pulvinar neque laoreet suspendisse interdum consectetur. Velit ut tortor pretium viverra suspendisse potenti nullam ac. Diam quam nulla porttitor massa id neque aliquam vestibulum.
+                    </p>
+
+                    <div class="row">
+                        <dt class="col-3">Released by:</dt>
+                        <dd class="col-9">Freelancer/Craftsmen Name</dd>
+                    </div>
+
+                    <hr />
+
+                    <div class="row mb-4">
+                        <!-- col.// -->
+                        <div class="col-md-4 col-6 mb-3">
+                            <label class="mb-2 d-block">Quantity</label>
+                            <div class="input-group mb-3" style="width: 170px;">
+                                <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon1" data-mdb-ripple-color="dark">
+                                    <i>-</i>
+                                </button>
+                                <input type="text" class="form-control text-center border border-secondary" placeholder="14" aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                                <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon2" data-mdb-ripple-color="dark">
+                                    <i>+</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+                </div>
+
+                <!-- Review and rating section -->
+                    <hr />
+
+                    <h5 class="mt-4">Customer Reviews</h5>
+                    <div class="mb-4">
+                        <br/>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+                    <!-- Add your own review and rating form -->
+                    <h5 class="mt-4">Leave a Review</h5>
+                    <br/>
+                    <form>
+                        <div class="mb-3">
+                            <select class="form-select" id="rating">
+                                <option selected disabled>Select a rating</option>
+                                <option value="1">1 star</option>
+                                <option value="2">2 stars</option>
+                                <option value="3">3 stars</option>
+                                <option value="4">4 stars</option>
+                                <option value="5">5 stars</option>
+                            </select>
+                        </div>
+                        <br/><br/>
+                        <div class="mb-3">
+                            <textarea class="form-control" id="review" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+<!-- content -->
