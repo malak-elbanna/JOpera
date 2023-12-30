@@ -6,25 +6,6 @@ namespace Project_test.Pages
 {
     public class LoginModel : PageModel
     {
-        [BindProperty]
-        public string Email { get; set; }
-
-        [BindProperty]
-        public string Password { get; set; }
-
-        [BindProperty]
-        public string Role { get; set; }
-        [BindProperty]
-        public string Fname { get; set; }
-        [BindProperty]
-        public string Lname { get; set; }
-        [BindProperty]
-        public string  Phone { get; set; }
-        [BindProperty]
-        public string BirthDate { get; set; }
-        [BindProperty]
-        public string Gender { get; set; }
-        public bool state { get; set; }
         public void OnGet()
         {
             string connectionString = "Data Source=bayoumi;Initial Catalog=JOpera;Integrated Security=True";
@@ -81,7 +62,7 @@ namespace Project_test.Pages
             }
         }
 
-        public IActionResult OnPostSignup(string fname, string lname, string role, string phone, DateTime birthdate, char gender, string email,string pass, string city, string street, string zipCode, string customerComm, string customerCategory, string customerPayment, string FreelancerExperience, string freelancerProjectN, string freelancerProjectD)
+        public IActionResult OnPostSignup(string fname, string lname, string role, string phone, DateTime birthdate, char gender, string email,string pass, string city, string street, string zipCode, string customerComm, string customerCategory, string customerPayment, string FreelancerExperience, string freelancerProjectN, string freelancerProjectD,int WorkingHours)
         {
             try
             {
@@ -124,7 +105,7 @@ namespace Project_test.Pages
                             using (SqlCommand freelancerCommand = new SqlCommand(FreelancerQuery, connection))
                             {
                                 freelancerCommand.Parameters.AddWithValue("@Category", "null");
-                                freelancerCommand.Parameters.AddWithValue("@WorkingHours", 0);
+                                freelancerCommand.Parameters.AddWithValue("@WorkingHours", WorkingHours);
                                 freelancerCommand.Parameters.AddWithValue("@WorkExperience", FreelancerExperience);
                                 freelancerCommand.Parameters.AddWithValue("@UserID", userId);
                                 freelancerCommand.ExecuteNonQuery();
