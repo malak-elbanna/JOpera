@@ -291,48 +291,44 @@ h6 span{
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3">Log In</h4>
-                                        <div class="form-group">
-                                            <input type="email" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
-                                            <i class="input-icon uil uil-at"></i>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <input type="password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
-                                            <i class="input-icon uil uil-lock-alt"></i>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <label class="form-label">Role:</label>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="role" id="role-freelancer" value="freelancer">
-                                                <label class="form-check-label" for="role-freelancer">Freelancer</label>
+                                        <form method="post" asp-page-handler="OnPostLogin">
+                                            <div class="form-group">
+                                                <input type="email" name="Email" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
+                                                <i class="input-icon uil uil-at"></i>
                                             </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="role" id="role-customer" value="customer">
-                                                <label class="form-check-label" for="role-customer">Customer</label>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="Password" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
+                                                <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
-                                            <br />
-                                            <button type="button" onclick="toggleRoleForm()" class="btn">Submit</button>
-                                        </div>
+                                            <div class="form-group mt-2">
+                                                <br />
+                                                <button asp-page-handler="Login" class="btn btn-success">Login</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="card-back" id="signup-form">
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3">Sign Up</h4>
+                                        <form method="post" asp-page-handler="OnPostSignup">
                                         <div class="form-group">
-                                            <input type="text" name="logfname" class="form-style" placeholder="Your First Name" id="logname" autocomplete="off">
+                                            <input type="text" name="fname" class="form-style" placeholder="Your First Name" id="fname" autocomplete="off">
                                             <i class="input-icon uil uil-user"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="text" name="loglname" class="form-style" placeholder="Your Last Name" id="logname" autocomplete="off">
+                                            <input type="text" name="lname" class="form-style" placeholder="Your Last Name" id="lname" autocomplete="off">
                                             <i class="input-icon uil uil-user"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="email" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
+                                            <input type="email" name="email" class="form-style" placeholder="Your Email" id="email" autocomplete="off">
                                             <i class="input-icon uil uil-at"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="password" name="logpass" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
+                                            <input type="password" name="pass" class="form-style" placeholder="Your Password" id="pass" autocomplete="off">
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
                                         <div class="form-group mt-2">
@@ -346,11 +342,11 @@ h6 span{
                                         <div class="form-group mt-2">
                                             <label class="form-label">Gender:</label>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="gender-male" value="male">
+                                                <input class="form-check-input" type="radio" name="gender" id="gender-male" value="M">
                                                 <label class="form-check-label" for="gender-male">Male</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="gender-female" value="female">
+                                                <input class="form-check-input" type="radio" name="gender" id="gender-female" value="F">
                                                 <label class="form-check-label" for="gender-female">Female</label>
                                             </div>
                                         </div>
@@ -363,7 +359,7 @@ h6 span{
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="number" name="zip-code" class="form-style" id="zip-code" placeholder="Your ZIP Code">
+                                                <input type="number" name="zipCode" class="form-style" id="zip-code" placeholder="Your ZIP Code">
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
 
@@ -381,8 +377,50 @@ h6 span{
 
                                         <div id="freelancerFields" style="display: none;">
                                             <div class="form-group mt-2">
-                                                <input type="text" name="freelancerAbout" class="form-style" placeholder="About Me" autocomplete="off">
+                                                <input type="text" name="FreelancerExperience" class="form-style" placeholder="Experience" autocomplete="off">
                                             </div>
+
+                                                <div class="form-group mt-2">
+                                                    <label for="WorkingHours">Working hours:</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">from</span>
+                                                        </div>
+                                                        <select name="WorkingHour" class="form-control">
+                                                            <option value="" selected disabled>Hours</option>
+                                                            <script>
+                                                                for (let i = 1; i <= 12; i++) {
+                                                                    document.write('<option value="' + i + '">' + i + '</option>');
+                                                                }
+                                                            </script>
+                                                        </select>
+                                                        <select name="AmPm" class="form-control">
+                                                            <option value="" selected disabled>AM/PM</option>
+                                                            <option value="AM">AM</option>
+                                                            <option value="PM">PM</option>
+                                                        </select>
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">from</span>
+                                                        </div>
+                                                        <select name="WorkingHour2" class="form-control">
+                                                            <option value="" selected disabled>Hour</option>
+                                                            <script>
+                                                                for (let i = 1; i <= 12; i++) {
+                                                                    document.write('<option value="' + i + '">' + i + '</option>');
+                                                                }
+                                                            </script>
+                                                        </select>
+                                                        <select name="AmPm2" class="form-control">
+                                                            <option value="" selected disabled>AM/PM</option>
+                                                            <option value="AM">AM</option>
+                                                            <option value="PM">PM</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+
+
                                             <div class="form-group mt-2">
                                                 <input type="text" name="freelancerProjectN" class="form-style" placeholder="Project Name" autocomplete="off">
                                             </div>
@@ -402,8 +440,9 @@ h6 span{
                                                 <label class="form-check-label" for="role-customer-signup">Customer</label>
                                             </div>
                                             <br />
-                                            <button type="button" class="btn">Submit</button>
-                                        </div>
+                                                <button asp-page-handler="Signup" class="btn btn-success">Signup</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -414,7 +453,6 @@ h6 span{
         </div>
     </div>
 </div>
-
 <script>
     function toggleRoleForm() {
         var signupForm = document.getElementById('signup-form');

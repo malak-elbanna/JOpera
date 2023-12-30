@@ -1,0 +1,78 @@
+﻿@page
+@model Project_test.Pages.ThankYouModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submission Successful</title>
+    <style>
+        .character {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .character img {
+            width: 40vw; 
+            max-width: 300px; 
+            height: auto;
+            border-radius: 70%;
+            align-items: center; 
+        }
+
+        .message {
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 6vw;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 3vw;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="character">
+            <img src="~/img/header-img.svg" alt="Cartoon Character" id="movingCharacter">
+        </div>
+        <div class="message">
+            <h1>Thank you!</h1>
+            <p>Your submission was successful.</p>
+        </div>
+        <br/> <br/>
+    </div>
+
+    <script>
+    const character = document.getElementById('movingCharacter');
+    let moveUp = true;
+
+    function moveCharacter() {
+        const currentPosition = parseInt(getComputedStyle(character).marginTop);
+        const maxHeight = 20; 
+
+        if (moveUp && currentPosition > -maxHeight) {
+            character.style.marginTop = (currentPosition - 1) + 'px';
+        } else {
+            moveUp = false;
+        }
+
+        if (!moveUp && currentPosition < 0) {
+            character.style.marginTop = (currentPosition + 1) + 'px';
+        } else {
+            moveUp = true;
+        }
+    }
+
+    setInterval(moveCharacter, 50);
+</script>
+</body>
+</html>
+
