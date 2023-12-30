@@ -1,5 +1,5 @@
 ﻿@page
-@model Project_test.Pages.AddSPModel
+@model Project_test.Pages.AddSP2Model
 @{
 }
 <head>
@@ -74,8 +74,8 @@
 </head>
 <div class="container">
     <br /><br />
-    <h1>Add Product</h1>
-    <form method="post" enctype="multipart/form-data" asp-page-handler="OnPostAddSP">
+    <h1>Add Service</h1>
+    <form method="post" enctype="multipart/form-data" asp-page-handler="OnPostAddSP2">
         @Html.AntiForgeryToken()
         <div class="form-group">
             <label for="name">Type: </label>
@@ -102,7 +102,7 @@
             <input type="file" id="images" name="images" asp-for="images" accept="image/*" multiple class="form-control-file" />
         </div>
 
-        <input asp-page-handler="AddSP" class="btn mt-4" type="submit" value="Submit">
+        <input asp-page-handler="AddSP2" class="btn mt-4" type="submit" value="Submit">
     </form>
     <br><br>
 </div>
