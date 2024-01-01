@@ -79,12 +79,12 @@
 <div class="container">
     <br /><br />
     <h1>Add Project</h1>
-    <form action="/submit" method="post">
+    <form  method="post">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name"  value="@Model.Name" required>
         <br><br>
         <label for="category">Description:</label>
-        <textarea type="text" id="desc" name="desc" required></textarea>
+        <textarea type="text" id="desc" name="Description" value="@Model.Description" required></textarea>
         <br><br>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <input class="btn mt-4" type="submit" value="Add">
