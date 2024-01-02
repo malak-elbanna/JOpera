@@ -77,10 +77,10 @@
     <h1>Add Service</h1>
     <form method="post" enctype="multipart/form-data" asp-page-handler="OnPostAddSP2">
         @Html.AntiForgeryToken()
-        <div class="form-group">
+        @* <div class="form-group">
             <label for="name">Type: </label>
             <input type="text" id="type" name="type" asp-for="type" required>
-        </div>
+        </div> *@
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" asp-for="name" required>
