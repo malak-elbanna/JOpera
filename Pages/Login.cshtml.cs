@@ -21,6 +21,8 @@ namespace Project_test.Pages
         [Required]
         public string email { get; set; }
         [Required]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$",
+        ErrorMessage = "Password must be at least 8 characters and must contain atleast 1 uppercase, lowercase, number and a special character.")]
         public string pass { get; set; }
         
         [Required]
@@ -49,7 +51,7 @@ namespace Project_test.Pages
         public void OnGet()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == 0)
+            if (userId == 0|| userId==null)
             {
 
             }
