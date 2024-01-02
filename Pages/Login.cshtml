@@ -1,6 +1,9 @@
 ﻿@page
 @model Project_test.Pages.LoginModel
 @{
+    ViewData["title"] = "Index";
+    ViewData["userId"] = 8173812;
+    // userId = ViewData["userId"];
 }
 <style>
 
@@ -325,8 +328,10 @@ h6 span{
                                                 <span asp-validation-for="fname" class="text-danger"></span>
                                             </div>
                                         <div class="form-group mt-2">
-                                            <input type="text" name="lname" class="form-style" placeholder="Your Last Name" id="lname" autocomplete="off">
+                                                <input type="text" asp-for="lname" class="form-style" placeholder="Your Last Name" id="lname" autocomplete="off">
                                             <i class="input-icon uil uil-user"></i>
+                                                <span asp-validation-for="lname" class="text-danger" default="null"></span>
+
                                         </div>
                                         <div class="form-group mt-2">
                                             <input type="email" name="email" class="form-style" placeholder="Your Email" id="email" autocomplete="off">
@@ -393,7 +398,7 @@ h6 span{
                                                     <label for="WorkingHours">Working hours:</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text">from</span>
-                                                        <select name="WorkingHour" class="form-control">
+                                                        <select asp-for="WorkingHour" class="form-control">
                                                             <option value="" selected disabled>Hours</option>
                                                             <script>
                                                                 for (let i = 1; i <= 12; i++) {
@@ -402,12 +407,13 @@ h6 span{
                                                             </script>
                                                         </select>
                                                         <select asp-for="AmPm" class="form-control">
+                                                            <span asp-validation-for="AmPm" class="text-danger"></span>
                                                             <option value="" selected disabled>AM/PM</option>
                                                             <option value="AM">AM</option>
                                                             <option value="PM">PM</option>
                                                         </select>
                                                         <span class="input-group-text">to</span>
-                                                        <select name="WorkingHour2" class="form-control">
+                                                        <select asp-for="WorkingHour2" class="form-control">
                                                             <option value="" selected disabled>Hour</option>
                                                             <script>
                                                                 for (let i = 1; i <= 12; i++) {

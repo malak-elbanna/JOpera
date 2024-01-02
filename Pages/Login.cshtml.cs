@@ -7,9 +7,11 @@ namespace Project_test.Pages
     [BindProperties]
     public class LoginModel : PageModel
     {
-        [Required(ErrorMessage = "First Name is required")]
         [MinLength(3)]
         public string fname { get; set; }
+        
+        public string? lname { get; set; }
+
         public string? AmPm { get; set; }="no";
         public string? AmPm2 { get; set; } = "no";
         public string? WorkingHour { get; set; }
@@ -73,7 +75,7 @@ namespace Project_test.Pages
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Invalid data entry, try again.";
+                //TempData["ErrorMessage"] = "Invalid data entry, try again.";
 
                 Console.WriteLine($"fname is: {fname}");
 
@@ -81,6 +83,7 @@ namespace Project_test.Pages
                 {
                     foreach (var error in modelState.Errors)
                     {
+                        TempData["ErrorMessage"] = error.ErrorMessage;
                         Console.WriteLine($"Model error: {error.ErrorMessage}");
                     }
                 }
@@ -173,6 +176,7 @@ namespace Project_test.Pages
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    TempData["ErrorMessage"] = ex.Message;
                     return RedirectToPage("/Login");
                 }
             }
