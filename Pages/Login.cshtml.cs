@@ -31,6 +31,8 @@ namespace Project_test.Pages
         [Required]
         public string zipCode { get; set; }
         [Required]
+        [StringLength(11, ErrorMessage = "Invalid phone Number.")]
+        [RegularExpression(@"^0[0-9]{10}$", ErrorMessage = "Phone number must start with '0'")]
         public string? phone { get; set; }
         [Required]
         public string? birthdate { get; set; }
@@ -64,26 +66,6 @@ namespace Project_test.Pages
 
         public IActionResult OnPostLogin(string email, string password)
         {
-            using (SqlConnection connection = new SqlConnection("Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True"))
-            {
-                connection.Open();
-                string query = "SELECT UserID FROM Users WHERE Email = @Email";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Email", email);
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            reader.Read();
-                            int userId = reader.GetInt32(reader.GetOrdinal("UserID"));
-                            HttpContext.Session.SetInt32("UserId", userId);
-                        }
-                    }
-                }
-            }
-
             string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -101,8 +83,11 @@ namespace Project_test.Pages
                         if (reader.HasRows)
                         {
                             reader.Read();
-                            int Id = reader.GetInt32(reader.GetOrdinal("UserID"));
-                            return RedirectToPage("/UserInfo", new { userId = Id });
+                            int userId = reader.GetInt32(reader.GetOrdinal("UserID"));
+                            string userRole = reader.GetString(reader.GetOrdinal("Role"));
+                            HttpContext.Session.SetInt32("UserId", userId);
+                            HttpContext.Session.SetString("UserRole", userRole);
+                            return RedirectToPage("/UserInfo");
                         }
                         else
                         {
