@@ -7,6 +7,8 @@ namespace Project_test.Pages
     {
         public void OnGet()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            Console.WriteLine(userId);
         }
     }
 }

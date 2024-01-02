@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Project_test.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 namespace Project_test.Pages
@@ -52,6 +53,8 @@ namespace Project_test.Pages
 
         public IActionResult OnPostLogin(string email, string password)
         {
+            HttpContext.Session.SetInt32("UserId", 10);
+
             string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
