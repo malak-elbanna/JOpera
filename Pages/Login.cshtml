@@ -334,24 +334,29 @@ h6 span{
 
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="email" name="email" class="form-style" placeholder="Your Email" id="email" autocomplete="off">
+                                            <input type="email" asp-for="email" class="form-style" placeholder="Your Email" id="email" autocomplete="off">
                                             <i class="input-icon uil uil-at"></i>
+                                                <span asp-validation-for="email" class="text-danger"></span>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="password" name="pass" class="form-style" placeholder="Your Password" id="pass" autocomplete="off">
+                                            <input type="password" asp-for="pass" class="form-style" placeholder="Your Password" id="pass" autocomplete="off">
                                             <i class="input-icon uil uil-lock-alt"></i>
+                                                <span asp-validation-for="pass" class="text-danger"></span>
                                         </div>
                                             <div class="form-group mt-2">
-                                                <input type="password" name="pass2" class="form-style" placeholder="Re-enter your Password" id="pass" autocomplete="off">
+                                                <input type="password" asp-for="pass2" class="form-style" placeholder="Re-enter your Password" id="pass" autocomplete="off">
                                                 <i class="input-icon uil uil-lock-alt"></i>
+                                                <span asp-validation-for="pass2" class="text-danger"></span>
                                             </div>
                                         <div class="form-group mt-2">
-                                            <input type="tel" name="phone" class="form-style" placeholder="Your Phone Number" id="phone" autocomplete="off">
+                                            <input type="tel" asp-for="phone" class="form-style" placeholder="Your Phone Number" id="phone" autocomplete="off">
                                             <i class="input-icon uil uil-phone"></i>
+                                                <span asp-validation-for="phone" class="text-danger"></span>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="date" name="birthdate" class="form-style" id="birthdate">
+                                            <input type="date" asp-for="birthdate" class="form-style" id="birthdate">
                                             <i class="input-icon uil uil-calendar-alt"></i>
+                                                <span asp-validation-for="birthdate" class="text-danger"></span>
                                         </div>
                                         <div class="form-group mt-2">
                                             <label class="form-label">Gender:</label>
@@ -365,67 +370,82 @@ h6 span{
                                             </div>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="text" name="city" class="form-style" id="city" placeholder="Your City">
+                                            <input type="text" asp-for="city" class="form-style" id="city" placeholder="Your City">
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input type="text" name="street" class="form-style" id="street" placeholder="Your Street">
+                                                <input type="text" asp-for="street" class="form-style" id="street" placeholder="Your Street">
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                                <input type="number" name="zipCode" class="form-style" id="zip-code" placeholder="Your ZIP Code">
+                                                <input type="number" asp-for="zipCode" class="form-style" id="zip-code" placeholder="Your ZIP Code">
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
 
                                         <div id="customerFields" style="display: none;">
                                             <div class="form-group mt-2">
-                                                <input type="text" name="customerComm" class="form-style" placeholder="Preferred Communication" autocomplete="off">
+                                                    <input type="text" asp-for="customerComm" id="communicationInput" class="form-style" placeholder="Preferred Communication" autocomplete="off">
                                             </div>
                                             <div class="form-group mt-2">
-                                                <input type="text" name="customerCategory" class="form-style" placeholder="Preferred Category" autocomplete="off">
+                                                    <input type="text" asp-for="customerCategory" id="categoryInput" class="form-style" placeholder="Preferred Category" autocomplete="off">
                                             </div>
                                             <div class="form-group mt-2">
-                                                <input type="text" name="customerPayment" class="form-style" placeholder="Preferred Payment Method" autocomplete="off">
+                                                    <input type="text" asp-for="customerPayment" id="paymentMethodInput" class="form-style" placeholder="Preferred Payment Method" autocomplete="off">
                                             </div>
                                         </div>
 
                                         <div id="freelancerFields" style="display: none;">
                                             <div class="form-group mt-2">
-                                                <input type="text" name="FreelancerExperience" class="form-style" placeholder="Experience" autocomplete="off">
+                                                    <input type="text" asp-for="Experience" id="experienceInput" class="form-style" placeholder="Experience" autocomplete="off">
                                             </div>
 
                                                 <div class="form-group mt-2">
                                                     <label for="WorkingHours">Working hours:</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text">from</span>
-                                                        <select asp-for="WorkingHour" class="form-control">
-                                                            <option value="" selected disabled>Hours</option>
+                                                        <select asp-for="WorkingHour" class="form-control" id="WorkingHour">
+                                                            <option value="">Hour</option>
                                                             <script>
                                                                 for (let i = 1; i <= 12; i++) {
-                                                                    document.write('<option value="' + i + '">' + i + '</option>');
+                                                                    if (i === 1) {
+                                                                        document.write('<option value="' + i + '" selected>' + i + '</option>');
+                                                                    } else {
+                                                                        document.write('<option value="' + i + '">' + i + '</option>');
+                                                                    }
                                                                 }
                                                             </script>
                                                         </select>
+
                                                         <select asp-for="AmPm" class="form-control">
                                                             <span asp-validation-for="AmPm" class="text-danger"></span>
-                                                            <option value="" selected disabled>AM/PM</option>
-                                                            <option value="AM">AM</option>
+                                                            <option value="" disabled>AM/PM</option>
+                                                            <option value="AM" selected>AM</option>
                                                             <option value="PM">PM</option>
                                                         </select>
+
                                                         <span class="input-group-text">to</span>
-                                                        <select asp-for="WorkingHour2" class="form-control">
-                                                            <option value="" selected disabled>Hour</option>
+
+                                                        <select asp-for="WorkingHours2" class="form-control" id="WorkingHours2">
+                                                            <option value="">Hour</option>
                                                             <script>
                                                                 for (let i = 1; i <= 12; i++) {
-                                                                    document.write('<option value="' + i + '">' + i + '</option>');
+                                                                    if (i === 1) {
+                                                                        document.write('<option value="' + i + '" selected>' + i + '</option>');
+                                                                    } else {
+                                                                        document.write('<option value="' + i + '">' + i + '</option>');
+                                                                    }
                                                                 }
                                                             </script>
                                                         </select>
+                                                        </select>
+
+
                                                         <select asp-for="AmPm2" class="form-control">
-                                                            <option value="" selected disabled>AM/PM</option>
-                                                            <option value="AM">AM</option>
+                                                            <option value="" disabled>AM/PM</option>
+                                                            <option value="AM" selected>AM</option>
                                                             <option value="PM">PM</option>
                                                         </select>
+
                                                     </div>
                                                 </div>
 
@@ -433,25 +453,26 @@ h6 span{
 
 
                                             <div class="form-group mt-2">
-                                                <input type="text" name="freelancerProjectN" class="form-style" placeholder="Project Name" autocomplete="off">
+                                                    <input type="text" asp-for="freelancerProjectN" id="projectNameInput" class="form-style" placeholder="Project Name" autocomplete="off">
                                             </div>
                                             <div class="form-group mt-2">
-                                                <input type="text" name="freelancerProjectD" class="form-style" placeholder="Project Description" autocomplete="off">
+                                                    <input type="text" asp-for="freelancerProjectD" id="projectDescriptionInput" class="form-style" placeholder="Project Description" autocomplete="off">
                                             </div>
                                         </div>
 
                                         <div class="form-group mt-2">
                                             <label class="form-label">Role:</label>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="role" id="role-freelancer-signup" value="freelancer" onclick="toggleRoleForm()">
+                                                <input class="form-check-input" type="radio" asp-for="role" id="role-freelancer-signup" value="freelancer" onclick="toggleRoleForm()">
                                                 <label class="form-check-label" for="role-freelancer-signup">Freelancer</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="role" id="role-customer-signup" value="customer" onclick="toggleRoleForm()">
+                                                <input class="form-check-input" type="radio" asp-for="role" id="role-customer-signup" value="customer" onclick="toggleRoleForm()">
                                                 <label class="form-check-label" for="role-customer-signup">Customer</label>
                                             </div>
+                                                <span asp-validation-for="role" class="text-danger"></span>
                                             <br />
-                                                <button asp-page-handler="Signup" class="btn btn-success">Signup</button>
+                                                <button asp-page-handler="Signup" onclick="submitForm()" class="btn btn-success">Signup</button>
                                             </div>
                                         </form>
                                     </div>
@@ -465,6 +486,23 @@ h6 span{
     </div>
 </div>
 <script>
+    function submitForm() {
+        setDefaultValue("experienceInput", "No experience");
+        setDefaultValue("projectNameInput", "No project name");
+        setDefaultValue("projectDescriptionInput", "No project description");
+        setDefaultValue("communicationInput", "No preferred communication");
+        setDefaultValue("categoryInput", "No preferred category");
+        setDefaultValue("paymentMethodInput", "No preferred payment method");
+
+        document.getElementById("myForm").submit();
+    }
+
+    function setDefaultValue(inputId, defaultValue) {
+        var inputElement = document.getElementById(inputId);
+        if (inputElement.value.trim() === "") {
+            inputElement.value = defaultValue;
+        }
+    }
     function toggleRoleForm() {
         var signupForm = document.getElementById('signup-form');
         var roleCustomer = document.getElementById('role-customer-signup');

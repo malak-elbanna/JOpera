@@ -7,18 +7,44 @@ namespace Project_test.Pages
     [BindProperties]
     public class LoginModel : PageModel
     {
-        [MinLength(3)]
+        [Required]
+        [MinLength(3,ErrorMessage ="First Name must be atleast 3 letters")]
         public string fname { get; set; }
-        
+        [Required]
+        [MinLength(3,ErrorMessage = "Second Name must be atleast 3 letters")]
         public string? lname { get; set; }
 
-        public string? AmPm { get; set; }="no";
-        public string? AmPm2 { get; set; } = "no";
+        public string AmPm { get; set; }
+        
+        public string AmPm2 { get; set; }
+        [Required]
+        public string email { get; set; }
+        [Required]
+        public string pass { get; set; }
+        
+        [Required]
+        [Compare(nameof(pass),ErrorMessage = "Passwords dont match")]
+        public string pass2 { get; set; }
+        [Required]
+        public string zipCode { get; set; }
+        [Required]
+        public string? phone { get; set; }
+        [Required]
+        public string? birthdate { get; set; }
         public string? WorkingHour { get; set; }
-        public string? WorkingHour2 { get; set; }
+        public string? WorkingHours2 { get; set; }
         public string? freelancerProjectD { get; set; }
         public string? freelancerProjectN { get; set; }
-        public string? FreelancerExperience { get; set; }
+        public string? Experience { get; set; }
+        public string? customerComm { get; set; }
+        public string? customerCategory { get; set; }
+        public string? customerPayment { get; set; }
+        public string? city { get; set; }
+        public string? street { get; set; }
+        public string? role { get; set; }
+
+
+
         public void OnGet()
         {
 
@@ -55,7 +81,7 @@ namespace Project_test.Pages
                 }   
             }
         }
-        private bool IsEmailExists(string email, string connectionString)
+        public bool IsEmailExists(string email, string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -71,19 +97,14 @@ namespace Project_test.Pages
                 }
             }
         }
-        public IActionResult OnPostSignup(string fname, string lname, string role, string phone, DateTime birthdate, char gender, string email, string pass, string city, string street, string zipCode, string customerComm, string customerCategory, string customerPayment, string FreelancerExperience, string freelancerProjectN, string freelancerProjectD, string WorkingHour, string AmPm, string WorkingHour2, string AmPm2)
+        public IActionResult OnPostSignup(string fname, string lname, string role, string phone, DateTime birthdate, char gender, string email, string pass, string city, string street, string zipCode, string customerComm, string customerCategory, string customerPayment, string Experience, string freelancerProjectN, string freelancerProjectD, string WorkingHour, string AmPm, string WorkingHours2, string AmPm2)
         {
             if (!ModelState.IsValid)
             {
-                //TempData["ErrorMessage"] = "Invalid data entry, try again.";
-
-                Console.WriteLine($"fname is: {fname}");
-
                 foreach (var modelState in ModelState.Values)
                 {
                     foreach (var error in modelState.Errors)
                     {
-                        TempData["ErrorMessage"] = error.ErrorMessage;
                         Console.WriteLine($"Model error: {error.ErrorMessage}");
                     }
                 }
@@ -94,7 +115,7 @@ namespace Project_test.Pages
             {
                 try
                 {
-                    string workingHours = $"From {WorkingHour} {AmPm} to {WorkingHour2} {AmPm2}";
+                    string workingHours = $"From {WorkingHour} {AmPm} to {WorkingHours2} {AmPm2}";
                     string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
                     if (IsEmailExists(email, connectionString))
                     {
@@ -139,7 +160,7 @@ namespace Project_test.Pages
                                 using (SqlCommand freelancerCommand = new SqlCommand(FreelancerQuery, connection))
                                 {
                                     freelancerCommand.Parameters.AddWithValue("@WorkingHours", workingHours);
-                                    freelancerCommand.Parameters.AddWithValue("@WorkExperience", FreelancerExperience);
+                                    freelancerCommand.Parameters.AddWithValue("@WorkExperience", Experience);
                                     freelancerCommand.Parameters.AddWithValue("@UserID", userId);
                                     freelancerCommand.ExecuteNonQuery();
                                 }
