@@ -48,12 +48,39 @@ namespace Project_test.Pages
 
         public void OnGet()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == 0)
+            {
 
+            }
+            else
+            {
+                Console.WriteLine(userId);
+                Response.Redirect("/Logout");
+            }
         }
 
         public IActionResult OnPostLogin(string email, string password)
         {
-            HttpContext.Session.SetInt32("UserId", 10);
+            using (SqlConnection connection = new SqlConnection("Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True"))
+            {
+                connection.Open();
+                string query = "SELECT UserID FROM Users WHERE Email = @Email";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            int userId = reader.GetInt32(reader.GetOrdinal("UserID"));
+                            HttpContext.Session.SetInt32("UserId", userId);
+                        }
+                    }
+                }
+            }
 
             string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 

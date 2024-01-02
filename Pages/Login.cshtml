@@ -115,7 +115,7 @@ h6 span{
 }
 .card-front, .card-back {
   width: 100%;
-  height: 115%;
+  height: 110%;
   background-color: #2a2b38;
   background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
   background-position: bottom center;
@@ -284,6 +284,9 @@ h6 span{
         @TempData["ErrorMessage"]
     </div>
 }
+@* @if (HttpContext.Session.GetInt32("UserId")==0){
+     RedirectToPage("/Logout");
+} *@
 <div class="section">
     <div class="container">
         <div class="row full-height justify-content-center">
