@@ -30,11 +30,14 @@ namespace Project_test.Pages
 
         public IActionResult OnPostAddSP()
         {
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             Con = new SqlConnection(conStr);
 
             string insertProductQuery = "INSERT INTO Product (Category, Name, Price, Description) VALUES (@Category, @Name, @Price, @Description); SELECT SCOPE_IDENTITY();";
             string insertProductImageQuery = "INSERT INTO ProductIMG (ProductID, img) VALUES (@ProductID, @ImageData);";
+
+            //var userId = HttpContext.Session.GetInt32("UserId");
+            //var userRole = HttpContext.Session.GetString("UserRole");
 
             try
             {
@@ -44,6 +47,7 @@ namespace Project_test.Pages
                 using (SqlCommand cmd = new SqlCommand(insertProductQuery, Con))
                 {
                     Con.Open();
+                    //cmd.Parameters.Add("@FreelancerID", SqlDbType.VarChar).Value = userId;
                     cmd.Parameters.Add("@Category", SqlDbType.VarChar).Value = category;
                     cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = name;
                     cmd.Parameters.Add("@Price", SqlDbType.Int).Value = price;

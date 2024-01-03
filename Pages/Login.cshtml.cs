@@ -66,7 +66,8 @@ namespace Project_test.Pages
 
         public IActionResult OnPostLogin(string email, string password)
         {
-            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -87,7 +88,7 @@ namespace Project_test.Pages
                             string userRole = reader.GetString(reader.GetOrdinal("Role"));
                             HttpContext.Session.SetInt32("UserId", userId);
                             HttpContext.Session.SetString("UserRole", userRole);
-                            return RedirectToPage("/UserInfo");
+                            return RedirectToPage("/UserInfo", new { loggedIn = true });
                         }
                         else
                         {
@@ -133,7 +134,7 @@ namespace Project_test.Pages
                 try
                 {
                     string workingHours = $"From {WorkingHour} {AmPm} to {WorkingHours2} {AmPm2}";
-                    string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                    string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
                     if (IsEmailExists(email, connectionString))
                     {
                         TempData["ErrorMessage"] = "Email already exists. Please use a different email address.";
