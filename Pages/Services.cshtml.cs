@@ -7,6 +7,7 @@ namespace Project_test.Pages
     public class ServicesModel : PageModel
     {
         public List<ServicesInfo> Services = new List<ServicesInfo>();
+        private readonly HashSet<int> displayedServiceIDs = new HashSet<int>();
         private readonly ILogger<ProductsModel> _logger;
 
         public ServicesModel(ILogger<ProductsModel> logger)
@@ -40,14 +41,19 @@ namespace Project_test.Pages
                         {
                             while (data.Read())
                             {
-                                ServicesInfo info = new ServicesInfo();
-                                info.Price = "" + data.GetInt32(1);
-                                info.Name = data.GetString(0);
-                                info.Category = data.GetString(2);
-                                info.ImageData = data.GetSqlBinary(3).Value;
                                 int ServiceID = data.GetInt32(data.GetOrdinal("ServiceID"));
-                                HttpContext.Session.SetInt32("ServiceID", ServiceID);
-                                Services.Add(info);
+                                if (!displayedServiceIDs.Contains(ServiceID)) {
+                                    displayedServiceIDs.Add(ServiceID);
+                                    HttpContext.Session.SetInt32("ServiceID", ServiceID);
+                                    ServicesInfo info = new ServicesInfo();
+                                    info.Price = "" + data.GetInt32(1);
+                                    info.Name = data.GetString(0);
+                                    info.Category = data.GetString(2);
+                                    info.ImageData = data.GetSqlBinary(3).Value;
+       
+                                    
+                                    Services.Add(info);
+                                }
                             }
                         }
                     }

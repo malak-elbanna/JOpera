@@ -134,7 +134,8 @@ namespace Project_test.Pages
                 try
                 {
                     string workingHours = $"From {WorkingHour} {AmPm} to {WorkingHours2} {AmPm2}";
-                    string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                    string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                    //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
                     if (IsEmailExists(email, connectionString))
                     {
                         TempData["ErrorMessage"] = "Email already exists. Please use a different email address.";

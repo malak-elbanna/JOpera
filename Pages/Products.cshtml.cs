@@ -9,6 +9,7 @@ namespace Project_test.Pages
     public class ProductsModel : PageModel
     {
         public List<Productssinfo> products = new List<Productssinfo>();
+        private readonly HashSet<int> displayedProductIDs = new HashSet<int>();
         private readonly ILogger<ProductsModel> _logger;
 
         public ProductsModel(ILogger<ProductsModel> logger)
@@ -45,15 +46,29 @@ namespace Project_test.Pages
                         {
                             while (data.Read())
                             {
-                                Productssinfo info = new Productssinfo();
                                 int productID = data.GetInt32(data.GetOrdinal("ProductID"));
-                                HttpContext.Session.SetInt32("ProductID", productID);
-                                info.Price = "" + data.GetInt32(2);
-                                info.Name = data.GetString(1);
-                                info.Category = data.GetString(3);
-                                info.ImageData = data.GetSqlBinary(4).Value;
+                                if (!displayedProductIDs.Contains(productID))
+                                {
+                                    displayedProductIDs.Add(productID);
+                                    HttpContext.Session.SetInt32("ProductID", productID);
+                                    Productssinfo info = new Productssinfo();
+                                    info.Price = "" + data.GetInt32(2);
+                                    info.Name = data.GetString(1);
+                                    info.Category = data.GetString(3);
+                                    info.ImageData = data.GetSqlBinary(4).Value;
 
-                                products.Add(info);
+                                    products.Add(info);
+                                }
+                                //Productssinfo info = new Productssinfo();
+                               
+                                //HttpContext.Session.SetInt32("ProductID", productID);
+                                
+                                //info.Price = "" + data.GetInt32(2);
+                                //info.Name = data.GetString(1);
+                                //info.Category = data.GetString(3);
+                                //info.ImageData = data.GetSqlBinary(4).Value;
+
+                                //products.Add(info);
                             }
                         }
                     }
