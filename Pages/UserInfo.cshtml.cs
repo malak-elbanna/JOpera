@@ -18,6 +18,7 @@ namespace Project_test.Pages
         public string? Location { get; set; }
         public string? ProjectName { get; set; }
         public string? ProjectDescription { get; set; }
+        public string? Role { get; set; }
 
         public void OnGet()
         {
@@ -34,6 +35,7 @@ namespace Project_test.Pages
                 Console.WriteLine(userId);
                 Console.WriteLine("Role :");
                 Console.WriteLine(userRole);
+                Role = userRole;
             }
         }
         public void GetFreelancer()
