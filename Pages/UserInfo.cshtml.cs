@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Logging;
 
 
 namespace Project_test.Pages
@@ -20,12 +19,8 @@ namespace Project_test.Pages
         public string? ProjectName { get; set; }
         public string? ProjectDescription { get; set; }
 
-        public void OnGet(bool loggedIn)
+        public void OnGet()
         {
-            if (loggedIn)
-            {
-                GetFreelancer();
-            }
             var userId = HttpContext.Session.GetInt32("UserId");
             var userRole = HttpContext.Session.GetString("UserRole");
             if (userId == 0)
@@ -34,6 +29,7 @@ namespace Project_test.Pages
             }
             else
             {
+                GetFreelancer();
                 Console.WriteLine("LOGGED IN WITH ID:");
                 Console.WriteLine(userId);
                 Console.WriteLine("Role :");

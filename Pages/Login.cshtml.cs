@@ -88,7 +88,7 @@ namespace Project_test.Pages
                             string userRole = reader.GetString(reader.GetOrdinal("Role"));
                             HttpContext.Session.SetInt32("UserId", userId);
                             HttpContext.Session.SetString("UserRole", userRole);
-                            return RedirectToPage("/UserInfo", new { loggedIn = true });
+                            return RedirectToPage("/UserInfo");
                         }
                         else
                         {
