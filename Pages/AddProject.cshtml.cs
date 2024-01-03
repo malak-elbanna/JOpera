@@ -17,16 +17,19 @@ namespace Project_test.Pages
         {
             try
             {
-                string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
+                string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                var userId = HttpContext.Session.GetInt32("UserId");
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "INSERT INTO Project" + "(/*FreeLancerID,*/ Name, Description) VALUES" + "" +
-                        "(/*@FreeLancerID,*/ @Name, @Description)";
+                    string query = "INSERT INTO Project" + "(FreeLancerID, Name, Description) VALUES" + "" +
+                        "(@FreeLancerID, @Name, @Description)";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         //command.Parameters.AddWithValue("@FreeLancerID", 100);
                         command.Parameters.AddWithValue("@Name", Request.Form["name"].ToString());
+
+                        command.Parameters.AddWithValue("@FreeLancerID", userId);
 
                         command.Parameters.AddWithValue("@Description", Request.Form["Description"].ToString());
 

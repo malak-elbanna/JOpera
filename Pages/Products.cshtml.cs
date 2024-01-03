@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 using System.Data;
+using System.Reflection.PortableExecutable;
 
 namespace Project_test.Pages
 {
@@ -19,15 +20,18 @@ namespace Project_test.Pages
         {
             try
             {
-                string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
+                string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT [Name],[Price],[Category] FROM Product";
+                    //string query = "SELECT P.[Name], P.[Price], P.[Category], PI.[img] FROM Product AS P"+
+                    //               "JOIN ProductIMG AS PI ON P.ProductID = PI.ProductID";
+
+                    string query = "SELECT P.ProductID, P.[Name], P.[Price], P.[Category], PI.[img] FROM Product AS P JOIN ProductIMG AS PI ON P.ProductID = PI.ProductID";
 
                     if (!string.IsNullOrEmpty(category))
                     {
-                        query += $" WHERE Category = @category";
+                        query += $" WHERE P.[Category] = @category";
                     }
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -42,9 +46,13 @@ namespace Project_test.Pages
                             while (data.Read())
                             {
                                 Productssinfo info = new Productssinfo();
-                                info.Price = "" + data.GetInt32(1);
-                                info.Name = data.GetString(0);
-                                info.Category = data.GetString(2);
+                                int productID = data.GetInt32(data.GetOrdinal("ProductID"));
+                                HttpContext.Session.SetInt32("ProductID", productID);
+                                info.Price = "" + data.GetInt32(2);
+                                info.Name = data.GetString(1);
+                                info.Category = data.GetString(3);
+                                info.ImageData = data.GetSqlBinary(4).Value;
+
                                 products.Add(info);
                             }
                         }
@@ -62,6 +70,10 @@ namespace Project_test.Pages
             public string Name;
             public string Price;
             public string Category { get; set; }
+
+            public byte[] ImageData { get; set; }
+
+        
         }
     }
 }
