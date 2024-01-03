@@ -48,6 +48,7 @@ namespace Project_test.Pages
             string freelancerQuery = $"select Work_Experience, Working_Hours from Freelancers where FreelancerID = {userId}";
             string locationQuery = $"select City, Street_Num from Location where UserID = {userId}";
             string projectQuery = $"select Name, Description from Project where FreelancerID = {userId}";
+            string serviceQuery = $"select ServiceID ";
 
             try
             {
