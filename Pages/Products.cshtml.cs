@@ -59,7 +59,7 @@ namespace Project_test.Pages
                                     info.Name = data.GetString(1);
                                     info.Category = data.GetString(3);
                                     info.ImageData = data.GetSqlBinary(4).Value;
-
+                                    info.ProductID = data.GetInt32(0);
                                     products.Add(info);
                                 }
                                
@@ -78,6 +78,7 @@ namespace Project_test.Pages
         {
             public string Name;
             public string Price;
+            public int ProductID;
             public string Category { get; set; }
 
             public byte[] ImageData { get; set; }

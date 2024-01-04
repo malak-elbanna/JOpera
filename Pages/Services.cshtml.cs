@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Project_test.Pages
@@ -51,8 +52,9 @@ namespace Project_test.Pages
                                     info.Name = data.GetString(0);
                                     info.Category = data.GetString(2);
                                     info.ImageData = data.GetSqlBinary(3).Value;
-       
-                                    
+                                    info.serviceID = data.GetInt32(4);
+
+
                                     Services.Add(info);
                                 }
                             }
@@ -70,9 +72,11 @@ namespace Project_test.Pages
         {
             public string Name;
             public string Price;
+            public int serviceID;
             public string Category { get; set; }
 
             public byte[] ImageData { get; set; }
+
         }
     }
 }
