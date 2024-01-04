@@ -22,6 +22,13 @@ namespace Project_test.Pages
         public void OnGet()
         {
             GetProduct();
+
+            if (Request.Query.TryGetValue("ProductID", out var value))
+            {
+                // 'value' contains the value passed in the URL
+                string passedValue = value.ToString();
+                Console.WriteLine(passedValue);
+            }
         }
 
         public void GetProduct()
