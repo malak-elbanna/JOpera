@@ -35,7 +35,8 @@ namespace Project_test.Pages
             //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             Con = new SqlConnection(conStr);
 
-            string insertProductQuery = "INSERT INTO Product (Category, Name, Price, Description) VALUES (@Category, @Name, @Price, @Description); SELECT SCOPE_IDENTITY();";
+            var userId = HttpContext.Session.GetInt32("UserId");
+            string insertProductQuery = $"INSERT INTO Product (FreelancerID, Category, Name, Price, Description) VALUES ({userId}, @Category, @Name, @Price, @Description); SELECT SCOPE_IDENTITY();";
             string insertProductImageQuery = "INSERT INTO ProductIMG (ProductID, img) VALUES (@ProductID, @ImageData);";
 
             //var userId = HttpContext.Session.GetInt32("UserId");

@@ -18,6 +18,7 @@ namespace Project_test.Pages
         public string? Location { get; set; }
         public string? ProjectName { get; set; }
         public string? ProjectDescription { get; set; }
+        public string? Role { get; set; }
 
         public void OnGet()
         {
@@ -34,6 +35,7 @@ namespace Project_test.Pages
                 Console.WriteLine(userId);
                 Console.WriteLine("Role :");
                 Console.WriteLine(userRole);
+                Role = userRole;
             }
         }
         public void GetFreelancer()
@@ -48,6 +50,7 @@ namespace Project_test.Pages
             string freelancerQuery = $"select Work_Experience, Working_Hours from Freelancers where FreelancerID = {userId}";
             string locationQuery = $"select City, Street_Num from Location where UserID = {userId}";
             string projectQuery = $"select Name, Description from Project where FreelancerID = {userId}";
+            string serviceQuery = $"select ServiceID ";
 
             try
             {
