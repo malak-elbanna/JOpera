@@ -43,8 +43,8 @@ namespace Project_test.Pages
             }
             else
             {
-                string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-                //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -54,7 +54,7 @@ namespace Project_test.Pages
                                  FROM ProductCart c
                                  INNER JOIN Product p ON c.ProductID = p.ProductID
                                  WHERE c.CustomerID = @UserID
-                                 Group by c.ProductID,c.Quantity, p.Name, p.price";
+                                 Group by c.ProductID,c.Quantity, p.Name, p.price ORDER BY c.ProductID";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -79,7 +79,7 @@ namespace Project_test.Pages
                                         Quantity = quantity,
                                         Name = productName,
                                         Price = price,
-                                        Sum = sum
+                                        Sum = sum* quantity
                                     });
                                 }
                             }
@@ -124,69 +124,34 @@ namespace Project_test.Pages
                         }
                     }
                 }
-                int Total = Products.Sum(p => p.Sum) + Services.Sum(s => s.Sum);
-                this.Total = Total;
+                int total = Products.Sum(p => p.Sum) + Services.Sum(s => s.Sum);
+                Total = total;
             }
         }
-        /* public IActionResult OnPostUpdate()
-         {
-             //var userId = HttpContext.Session.GetInt32("UserId");
 
-             //Console.WriteLine($"ID in UPDATE CART IS {userId}");
-
-             //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-
-             //using (SqlConnection connection = new SqlConnection(connectionString))
-             //{
-             //    connection.Open();
-
-             //    string updateQuery = @"
-             //    UPDATE ProductCart
-             //    SET Quantity = @UpdatedQuantity
-             //    WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
-
-             //    using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
-             //    {
-             //        updateCommand.Parameters.AddWithValue("@UpdatedQuantity", UpdatedQuantity);
-             //        updateCommand.Parameters.AddWithValue("@UpdatedProductId", UpdatedProductId);
-             //        updateCommand.Parameters.AddWithValue("@UserId", userId);
-
-             //        int rowsAffected = updateCommand.ExecuteNonQuery();
-
-             //        if (rowsAffected > 0)
-             //        {
-             //            return RedirectToPage("/ShopCart");
-             //        }
-             //        else
-             //        {
-             //            return Page();
-             //        }
-             //    }
-             //}
-         }
-     */
         public IActionResult OnPost()
         {
             var updatedProductId = int.Parse(Request.Form["updatedProductId"]);
-            var updatedQuantity = Request.Form["updatedQuantity"];
+            var updatedQuantity = Request.Form["action"];
             var userId = HttpContext.Session.GetInt32("UserId");
 
-            string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
-            int quantityToAdd = updatedQuantity == "increase" ? 1 : -1;
+            int quantityChange = updatedQuantity == "increase" ? 1 : -1;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
                 string updateQuery = @"
-                        UPDATE ProductCart
-                        SET Quantity = Quantity + @QuantityToAdd
-                        WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
+                UPDATE ProductCart
+                SET Quantity = CASE WHEN Quantity + @QuantityChange < 1 THEN 1 ELSE Quantity + @QuantityChange END
+                WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
 
                 using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@QuantityToAdd", quantityToAdd);
+                    updateCommand.Parameters.AddWithValue("@QuantityChange", quantityChange);
                     updateCommand.Parameters.AddWithValue("@UpdatedProductId", updatedProductId);
                     updateCommand.Parameters.AddWithValue("@UserId", userId);
 
@@ -202,6 +167,64 @@ namespace Project_test.Pages
                     }
                 }
             }
+        }
+        [BindProperty(SupportsGet = true)]
+        public int ItemIdToDelete { get; set; }
+        public IActionResult OnPostDeletes()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            Console.WriteLine($"User ID is: {userId} and Service ID to delete is: {ItemIdToDelete}");
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string deleteQuery = @"
+                    DELETE FROM ServiceCart
+                    WHERE ServiceID = @ItemIdToDelete AND CustomerID = @UserId";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                {
+                    deleteCommand.Parameters.AddWithValue("@ItemIdToDelete", ItemIdToDelete);
+                    deleteCommand.Parameters.AddWithValue("@UserId", userId);
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToPage("/ShopCart");
+                    }
+                }
+            }
+            return RedirectToPage("/ShopCart");
+        }
+        public IActionResult OnPostDeleteP()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            Console.WriteLine($"User ID is: {userId} and Product ID to delete is: {ItemIdToDelete}");
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string deleteQuery = @"
+                    DELETE FROM ProductCart
+                    WHERE ProductID = @ItemIdToDelete AND CustomerID = @UserId";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                {
+                    deleteCommand.Parameters.AddWithValue("@ItemIdToDelete", ItemIdToDelete);
+                    deleteCommand.Parameters.AddWithValue("@UserId", userId);
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToPage("/ShopCart");
+                    }
+                }
+            }
+            return RedirectToPage("/ShopCart");
         }
     }
 }
