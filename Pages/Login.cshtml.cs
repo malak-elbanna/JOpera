@@ -66,20 +66,11 @@ namespace Project_test.Pages
 
         public IActionResult OnPostLogin(string email, string password)
         {
-<<<<<<< HEAD
-            string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-=======
-<<<<<<< HEAD
+            //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
             //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-=======
-            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
->>>>>>> 254a53f3295727a254785e4c7126dd74b468c4da
-            //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
->>>>>>> 76ffba39fb1c0a645dddfa410aaa13bec284e013
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

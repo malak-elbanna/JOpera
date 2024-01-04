@@ -21,13 +21,10 @@ namespace Project_test.Pages
         {
             try
             {
-<<<<<<< HEAD
-                string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+                //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
                 //string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
-=======
                 string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-                //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
->>>>>>> 254a53f3295727a254785e4c7126dd74b468c4da
+
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

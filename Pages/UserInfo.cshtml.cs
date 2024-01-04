@@ -40,20 +40,12 @@ namespace Project_test.Pages
         }
         public void GetFreelancer()
         {
-<<<<<<< HEAD
-            string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-=======
-<<<<<<< HEAD
-            
+            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
             string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-=======
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
             //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
->>>>>>> 76ffba39fb1c0a645dddfa410aaa13bec284e013
->>>>>>> 254a53f3295727a254785e4c7126dd74b468c4da
             Con = new SqlConnection(conStr);
 
             var userId = HttpContext.Session.GetInt32("UserId");
