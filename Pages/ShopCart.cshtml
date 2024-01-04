@@ -3,16 +3,16 @@
 @{
 }
 <style>
-.pro-qtyJO input {
-    height: 100%;
-    width: 100%;
-    font-size: 16px;
-    color: #6f6f6f;
-    width: 50px;
-    border: none;
-    background: #f5f5f5;
-    text-align: center;
-}
+    .pro-qtyJO input {
+        height: 100%;
+        width: 100%;
+        font-size: 16px;
+        color: #6f6f6f;
+        width: 50px;
+        border: none;
+        background: #f5f5f5;
+        text-align: center;
+    }
 
     #logoutButton {
         background-color: #4CAF50; /* Green */
@@ -28,46 +28,57 @@
         float: right; /* Add this line */
     }
 
-.pro-qtyJO .qtybtnJO {
-    width: 35px;
-    font-size: 16px;
-    color: #6f6f6f;
-    cursor: pointer;
-    display: inline-block;
-}
-
-
-.pro-qtyJO .qtybtnJO {
-    width: 30px;
-    height: 30px;
-    background: #f5f5f5;
-    border: none;
-    color: #6f6f6f;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-    .pro-qtyJO .qtybtnJO:hover {
-        background-color: #e0e0e0;
+    .pro-qtyJO .qtybtnJO {
+        width: 35px;
+        font-size: 16px;
+        color: #6f6f6f;
+        cursor: pointer;
+        display: inline-block;
     }
 
-.pro-qtyJO input {
-    height: 30px;
-    width: 50px;
-    font-size: 16px;
-    color: #6f6f6f;
-    border: none;
-    background: #f5f5f5;
-    text-align: center;
-    display: inline-block;
-}
 
-.pro-qtyJO .qtybtnJO.plus {
-    margin-left: 5px;
-}
+    .pro-qtyJO .qtybtnJO {
+        width: 30px;
+        height: 30px;
+        background: #f5f5f5;
+        border: none;
+        color: #6f6f6f;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .pro-qtyJO .qtybtnJO:hover {
+            background-color: #e0e0e0;
+        }
+
+    .pro-qtyJO input {
+        height: 30px;
+        width: 50px;
+        font-size: 16px;
+        color: #6f6f6f;
+        border: none;
+        background: #f5f5f5;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .pro-qtyJO .qtybtnJO.plus {
+        margin-left: 5px;
+    }
+
+    .icon_close {
+        border: none;
+        background: none; /* Optional: Remove background color */
+        cursor: pointer; /* Optional: Add cursor style on hover */
+    }
 </style>
-
+@if (TempData.ContainsKey("ErrorMessage"))
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
     <div class="container">
@@ -98,19 +109,27 @@
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
-                                                <div class="pro-qtyJO">
-                                                    <button class="qtybtnJO minus">-</button>
-                                                    <input type="text" value="@product.Quantity">
-                                                    <button class="qtybtnJO plus">+</button>
-                                                </div>
+                                                <form method="post">
+                                                    <input type="hidden" name="updatedProductId" id="updatedProductId"value="@product.ProductID" />
+                                                    <input type="hidden" name="action" id="action" />
+                                                    <div class="pro-qtyJO">
+                                                        <button type="button" class="qtybtnJO minus" onclick="setAction('@product.ProductID', 'decrease')">-</button>
+                                                        <input type="text" name="updatedQuantity" value="@product.Quantity" class="quantity-input" readonly />
+                                                        <button type="button" class="qtybtnJO plus" onclick="setAction('@product.ProductID', 'increase')">+</button>
+                                                    </div>
+                                                    <button type="submit" style="display:none;"></button>
+                                                </form>
                                             </div>
                                         </td>
                                         <td class="shoping__cart__total">
                                             $@(product.Price * product.Quantity).00
                                         </td>
+                                        <form method="post">
                                         <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
+                                            <input type="hidden" name="ItemIdToDelete" value="@product.ProductID" />
+                                            <button asp-page-handler="Deletep" class="icon_close"></button>
                                         </td>
+                                        </form>
                                     </tr>
                                 }
                             }
@@ -152,9 +171,13 @@
                                                 <td class="shoping__cart__total">
                                                     $@Service.Price.00
                                                 </td>
+
+                                                <form method="post">
                                                 <td class="shoping__cart__item__close">
-                                                    <span class="icon_close"></span>
+                                                    <input type="hidden" name="ItemIdToDelete" value="@Service.ServiceID" />
+                                                    <button asp-page-handler="Deletes" class="icon_close"></button>
                                                 </td>
+                                                </form>
                                             </tr>
                                         }
                                     }
@@ -172,10 +195,6 @@
                     </div>
                 </div>
 
-                <form method="post">
-                    <button type="submit" id="logoutButton">Update Cart</button>
-                </form>
-
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="shoping__cart__btns">
@@ -188,7 +207,9 @@
                             <ul>
                                 <li>Total <span>$@Model.Total.00</span></li>
                             </ul>
-                            <a href="/Checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
+                            <form method="post">
+                                <button asp-page-handler="Checkout" class="primary-btn">PROCEED TO CHECKOUT</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -196,21 +217,10 @@
         </section>
         <!-- Shoping Cart Section End -->
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var quantityInput = document.querySelector('.pro-qtyJO input');
-
-        var plusBtn = document.querySelector('.pro-qtyJO .plus');
-        var minusBtn = document.querySelector('.pro-qtyJO .minus');
-
-        plusBtn.addEventListener('click', function () {
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-        });
-
-        minusBtn.addEventListener('click', function () {
-            if (parseInt(quantityInput.value) > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
+        <script>
+            function setAction(productId, action) {
+                document.getElementById('updatedProductId').value = productId;
+                document.getElementById('action').value = action;
+                document.querySelector('form button[type="submit"]').click();
             }
-        });
-    });
-</script>
+        </script>

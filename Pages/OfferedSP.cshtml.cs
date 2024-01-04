@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 using System.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Project_test.Pages
 {
@@ -23,6 +24,7 @@ namespace Project_test.Pages
                 var userId = HttpContext.Session.GetInt32("UserId");
 
                 string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                //string connectionString = "Data Source = Bayoumi; Initial Catalog = JOpera; Integrated Security = True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.ComponentModel.DataAnnotations;
 using Project_test.Models;
 using Microsoft.Extensions.Primitives;
+using System.Reflection;
 
 namespace Project_test.Pages
 {
@@ -43,8 +44,9 @@ namespace Project_test.Pages
             }
             else
             {
-                string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-
+                //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -53,36 +55,36 @@ namespace Project_test.Pages
                                  FROM ProductCart c
                                  INNER JOIN Product p ON c.ProductID = p.ProductID
                                  WHERE c.CustomerID = @UserID
-                                 Group by c.ProductID,c.Quantity, p.Name, p.price";
-             
+                                 Group by c.ProductID,c.Quantity, p.Name, p.price ORDER BY c.ProductID";
+
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@UserID", userId);
 
-                            using (SqlDataReader reader = command.ExecuteReader())
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
                             {
-                                if (reader.HasRows)
+                                while (reader.Read())
                                 {
-                                    while (reader.Read())
+                                    int productID = reader.GetInt32(reader.GetOrdinal("ProductID"));
+                                    int quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
+                                    string productName = reader.GetString(reader.GetOrdinal("Name"));
+                                    int price = reader.GetInt32(reader.GetOrdinal("price"));
+                                    int sum = reader.GetInt32(reader.GetOrdinal("sum"));
+
+
+                                    Products.Add(new ProductModel
                                     {
-                                        int productID = reader.GetInt32(reader.GetOrdinal("ProductID"));
-                                        int quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
-                                        string productName = reader.GetString(reader.GetOrdinal("Name"));
-                                        int price = reader.GetInt32(reader.GetOrdinal("price"));
-                                        int sum = reader.GetInt32(reader.GetOrdinal("sum"));
-
-
-                                        Products.Add(new ProductModel
-                                        {
-                                            ProductID = productID,
-                                            Quantity = quantity,
-                                            Name = productName,
-                                            Price = price,
-                                            Sum = sum
-                                        });
-                                }
+                                        ProductID = productID,
+                                        Quantity = quantity,
+                                        Name = productName,
+                                        Price = price,
+                                        Sum = sum* quantity
+                                    });
                                 }
                             }
+                        }
                     }
                 }
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -123,45 +125,120 @@ namespace Project_test.Pages
                         }
                     }
                 }
-                int Total = Products.Sum(p => p.Sum) + Services.Sum(s => s.Sum);
-                this.Total = Total;
+                int total = Products.Sum(p => p.Sum) + Services.Sum(s => s.Sum);
+                Total = total;
             }
         }
-        public void OnPostUpdate()
+
+        public IActionResult OnPost()
         {
+            var updatedProductId = int.Parse(Request.Form["updatedProductId"]);
+            var updatedQuantity = Request.Form["action"];
             var userId = HttpContext.Session.GetInt32("UserId");
 
-            Console.WriteLine($"ID in UPDATE CART IS {userId}");
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
-            //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            int quantityChange = updatedQuantity == "increase" ? 1 : -1;
 
-            //using (SqlConnection connection = new SqlConnection(connectionString))
-            //{
-            //    connection.Open();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
 
-            //    string updateQuery = @"
-            //    UPDATE ProductCart
-            //    SET Quantity = @UpdatedQuantity
-            //    WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
+                string updateQuery = @"
+                UPDATE ProductCart
+                SET Quantity = CASE WHEN Quantity + @QuantityChange < 1 THEN 1 ELSE Quantity + @QuantityChange END
+                WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
 
-            //    using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
-            //    {
-            //        updateCommand.Parameters.AddWithValue("@UpdatedQuantity", UpdatedQuantity);
-            //        updateCommand.Parameters.AddWithValue("@UpdatedProductId", UpdatedProductId);
-            //        updateCommand.Parameters.AddWithValue("@UserId", userId);
+                using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@QuantityChange", quantityChange);
+                    updateCommand.Parameters.AddWithValue("@UpdatedProductId", updatedProductId);
+                    updateCommand.Parameters.AddWithValue("@UserId", userId);
 
-            //        int rowsAffected = updateCommand.ExecuteNonQuery();
+                    int rowsAffected = updateCommand.ExecuteNonQuery();
 
-            //        if (rowsAffected > 0)
-            //        {
-            //            return RedirectToPage("/ShopCart");
-            //        }
-            //        else
-            //        {
-            //            return Page();
-            //        }
-            //    }
-            //}
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToPage("/ShopCart");
+                    }
+                    else
+                    {
+                        return Page();
+                    }
+                }
+            }
+        }
+        [BindProperty(SupportsGet = true)]
+        public int ItemIdToDelete { get; set; }
+        public IActionResult OnPostDeletes()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            Console.WriteLine($"User ID is: {userId} and Service ID to delete is: {ItemIdToDelete}");
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string deleteQuery = @"
+                    DELETE FROM ServiceCart
+                    WHERE ServiceID = @ItemIdToDelete AND CustomerID = @UserId";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                {
+                    deleteCommand.Parameters.AddWithValue("@ItemIdToDelete", ItemIdToDelete);
+                    deleteCommand.Parameters.AddWithValue("@UserId", userId);
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToPage("/ShopCart");
+                    }
+                }
+            }
+            return RedirectToPage("/ShopCart");
+        }
+        public IActionResult OnPostDeleteP()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            Console.WriteLine($"User ID is: {userId} and Product ID to delete is: {ItemIdToDelete}");
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string deleteQuery = @"
+                    DELETE FROM ProductCart
+                    WHERE ProductID = @ItemIdToDelete AND CustomerID = @UserId";
+
+                using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                {
+                    deleteCommand.Parameters.AddWithValue("@ItemIdToDelete", ItemIdToDelete);
+                    deleteCommand.Parameters.AddWithValue("@UserId", userId);
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToPage("/ShopCart");
+                    }
+                }
+            }
+            return RedirectToPage("/ShopCart");
+        }
+        public IActionResult OnPostCheckout()
+        {
+            Console.WriteLine("I AM IN CHECKOUT FUCNTION");
+            if(!Products.Any() && !Services.Any())
+            {
+                TempData["ErrorMessage"] = "Your Cart is Empty, Could not proceed to checkout.";
+                return RedirectToPage("/ShopCart");
+            }
+            else
+            {
+                return RedirectToPage("/Checkout");
+            }
         }
 
     }
