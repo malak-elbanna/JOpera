@@ -43,7 +43,8 @@ namespace Project_test.Pages
             }
             else
             {
-                string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -54,35 +55,35 @@ namespace Project_test.Pages
                                  INNER JOIN Product p ON c.ProductID = p.ProductID
                                  WHERE c.CustomerID = @UserID
                                  Group by c.ProductID,c.Quantity, p.Name, p.price";
-             
+
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@UserID", userId);
 
-                            using (SqlDataReader reader = command.ExecuteReader())
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
                             {
-                                if (reader.HasRows)
+                                while (reader.Read())
                                 {
-                                    while (reader.Read())
+                                    int productID = reader.GetInt32(reader.GetOrdinal("ProductID"));
+                                    int quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
+                                    string productName = reader.GetString(reader.GetOrdinal("Name"));
+                                    int price = reader.GetInt32(reader.GetOrdinal("price"));
+                                    int sum = reader.GetInt32(reader.GetOrdinal("sum"));
+
+
+                                    Products.Add(new ProductModel
                                     {
-                                        int productID = reader.GetInt32(reader.GetOrdinal("ProductID"));
-                                        int quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
-                                        string productName = reader.GetString(reader.GetOrdinal("Name"));
-                                        int price = reader.GetInt32(reader.GetOrdinal("price"));
-                                        int sum = reader.GetInt32(reader.GetOrdinal("sum"));
-
-
-                                        Products.Add(new ProductModel
-                                        {
-                                            ProductID = productID,
-                                            Quantity = quantity,
-                                            Name = productName,
-                                            Price = price,
-                                            Sum = sum
-                                        });
-                                }
+                                        ProductID = productID,
+                                        Quantity = quantity,
+                                        Name = productName,
+                                        Price = price,
+                                        Sum = sum
+                                    });
                                 }
                             }
+                        }
                     }
                 }
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -127,42 +128,80 @@ namespace Project_test.Pages
                 this.Total = Total;
             }
         }
-        public void OnPostUpdate()
+        /* public IActionResult OnPostUpdate()
+         {
+             //var userId = HttpContext.Session.GetInt32("UserId");
+
+             //Console.WriteLine($"ID in UPDATE CART IS {userId}");
+
+             //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+             //using (SqlConnection connection = new SqlConnection(connectionString))
+             //{
+             //    connection.Open();
+
+             //    string updateQuery = @"
+             //    UPDATE ProductCart
+             //    SET Quantity = @UpdatedQuantity
+             //    WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
+
+             //    using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+             //    {
+             //        updateCommand.Parameters.AddWithValue("@UpdatedQuantity", UpdatedQuantity);
+             //        updateCommand.Parameters.AddWithValue("@UpdatedProductId", UpdatedProductId);
+             //        updateCommand.Parameters.AddWithValue("@UserId", userId);
+
+             //        int rowsAffected = updateCommand.ExecuteNonQuery();
+
+             //        if (rowsAffected > 0)
+             //        {
+             //            return RedirectToPage("/ShopCart");
+             //        }
+             //        else
+             //        {
+             //            return Page();
+             //        }
+             //    }
+             //}
+         }
+     */
+        public IActionResult OnPost()
         {
+            var updatedProductId = int.Parse(Request.Form["updatedProductId"]);
+            var updatedQuantity = Request.Form["updatedQuantity"];
             var userId = HttpContext.Session.GetInt32("UserId");
 
-            Console.WriteLine($"ID in UPDATE CART IS {userId}");
+            string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
-            //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            int quantityToAdd = updatedQuantity == "increase" ? 1 : -1;
 
-            //using (SqlConnection connection = new SqlConnection(connectionString))
-            //{
-            //    connection.Open();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
 
-            //    string updateQuery = @"
-            //    UPDATE ProductCart
-            //    SET Quantity = @UpdatedQuantity
-            //    WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
+                string updateQuery = @"
+                        UPDATE ProductCart
+                        SET Quantity = Quantity + @QuantityToAdd
+                        WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
 
-            //    using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
-            //    {
-            //        updateCommand.Parameters.AddWithValue("@UpdatedQuantity", UpdatedQuantity);
-            //        updateCommand.Parameters.AddWithValue("@UpdatedProductId", UpdatedProductId);
-            //        updateCommand.Parameters.AddWithValue("@UserId", userId);
+                using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@QuantityToAdd", quantityToAdd);
+                    updateCommand.Parameters.AddWithValue("@UpdatedProductId", updatedProductId);
+                    updateCommand.Parameters.AddWithValue("@UserId", userId);
 
-            //        int rowsAffected = updateCommand.ExecuteNonQuery();
+                    int rowsAffected = updateCommand.ExecuteNonQuery();
 
-            //        if (rowsAffected > 0)
-            //        {
-            //            return RedirectToPage("/ShopCart");
-            //        }
-            //        else
-            //        {
-            //            return Page();
-            //        }
-            //    }
-            //}
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToPage("/ShopCart");
+                    }
+                    else
+                    {
+                        return Page();
+                    }
+                }
+            }
         }
-
     }
 }
