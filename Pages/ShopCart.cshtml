@@ -98,11 +98,14 @@
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
-                                                <div class="pro-qtyJO">
-                                                    <button class="qtybtnJO minus">-</button>
-                                                    <input type="text" value="@product.Quantity">
-                                                    <button class="qtybtnJO plus">+</button>
-                                                </div>
+                                                <form method="post">
+                                                    <input type="hidden" name="updatedProductId" value="@product.ProductID" />
+                                                    <div class="pro-qtyJO">
+                                                        <button type="submit" name="updatedQuantity" value="decrease" class="qtybtnJO minus">-</button>
+                                                        <input type="text" name="updatedQuantity" value="@product.Quantity" class="quantity-input" readonly />
+                                                        <button type="submit" name="updatedQuantity" value="increase" class="qtybtnJO plus">+</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </td>
                                         <td class="shoping__cart__total">
@@ -173,9 +176,9 @@
                     </div>
                 </div>
 
-                <form method="post">
+                @* <form method="post">
                     <button type="submit" id="logoutButton">Update Cart</button>
-                </form>
+                </form> *@
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -197,11 +200,9 @@
         </section>
         <!-- Shoping Cart Section End -->
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var quantityInputs = document.querySelectorAll('.pro-qtyJO input');
-                var plusBtns = document.querySelectorAll('.pro-qtyJO .plus');
-                var minusBtns = document.querySelectorAll('.pro-qtyJO .minus');
+@* <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var quantityInput = document.querySelector('.pro-qtyJO input');
 
                 plusBtns.forEach(function (btn, index) {
                     btn.addEventListener('click', function () {
@@ -209,12 +210,10 @@
                     });
                 });
 
-                minusBtns.forEach(function (btn, index) {
-                    btn.addEventListener('click', function () {
-                        if (parseInt(quantityInputs[index].value) > 1) {
-                            quantityInputs[index].value = parseInt(quantityInputs[index].value) - 1;
-                        }
-                    });
-                });
-            });
-        </script>
+        minusBtn.addEventListener('click', function () {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        });
+    });
+</script> *@

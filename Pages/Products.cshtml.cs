@@ -21,8 +21,10 @@ namespace Project_test.Pages
         {
             try
             {
+                //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
                 //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-                string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -60,16 +62,7 @@ namespace Project_test.Pages
 
                                     products.Add(info);
                                 }
-                                //Productssinfo info = new Productssinfo();
                                
-                                //HttpContext.Session.SetInt32("ProductID", productID);
-                                
-                                //info.Price = "" + data.GetInt32(2);
-                                //info.Name = data.GetString(1);
-                                //info.Category = data.GetString(3);
-                                //info.ImageData = data.GetSqlBinary(4).Value;
-
-                                //products.Add(info);
                             }
                         }
                     }
