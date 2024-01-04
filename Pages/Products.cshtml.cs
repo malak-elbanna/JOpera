@@ -19,7 +19,8 @@ namespace Project_test.Pages
         {
             try
             {
-                string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
+                string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+                //string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
