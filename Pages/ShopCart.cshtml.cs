@@ -127,11 +127,11 @@ namespace Project_test.Pages
                 this.Total = Total;
             }
         }
-        public void OnPostUpdate()
+        public void OnPostUpdate(int productId, int newQuantity)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-
-            Console.WriteLine($"ID in UPDATE CART IS {userId}");
+            Console.WriteLine($"User ID in UPDATE CART is {userId}");
+            Console.WriteLine($"Product ID: {productId}, New Quantity: {newQuantity}");
 
             //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 

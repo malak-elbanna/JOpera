@@ -3,16 +3,16 @@
 @{
 }
 <style>
-.pro-qtyJO input {
-    height: 100%;
-    width: 100%;
-    font-size: 16px;
-    color: #6f6f6f;
-    width: 50px;
-    border: none;
-    background: #f5f5f5;
-    text-align: center;
-}
+    .pro-qtyJO input {
+        height: 100%;
+        width: 100%;
+        font-size: 16px;
+        color: #6f6f6f;
+        width: 50px;
+        border: none;
+        background: #f5f5f5;
+        text-align: center;
+    }
 
     #logoutButton {
         background-color: #4CAF50; /* Green */
@@ -28,44 +28,44 @@
         float: right; /* Add this line */
     }
 
-.pro-qtyJO .qtybtnJO {
-    width: 35px;
-    font-size: 16px;
-    color: #6f6f6f;
-    cursor: pointer;
-    display: inline-block;
-}
-
-
-.pro-qtyJO .qtybtnJO {
-    width: 30px;
-    height: 30px;
-    background: #f5f5f5;
-    border: none;
-    color: #6f6f6f;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-    .pro-qtyJO .qtybtnJO:hover {
-        background-color: #e0e0e0;
+    .pro-qtyJO .qtybtnJO {
+        width: 35px;
+        font-size: 16px;
+        color: #6f6f6f;
+        cursor: pointer;
+        display: inline-block;
     }
 
-.pro-qtyJO input {
-    height: 30px;
-    width: 50px;
-    font-size: 16px;
-    color: #6f6f6f;
-    border: none;
-    background: #f5f5f5;
-    text-align: center;
-    display: inline-block;
-}
 
-.pro-qtyJO .qtybtnJO.plus {
-    margin-left: 5px;
-}
+    .pro-qtyJO .qtybtnJO {
+        width: 30px;
+        height: 30px;
+        background: #f5f5f5;
+        border: none;
+        color: #6f6f6f;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .pro-qtyJO .qtybtnJO:hover {
+            background-color: #e0e0e0;
+        }
+
+    .pro-qtyJO input {
+        height: 30px;
+        width: 50px;
+        font-size: 16px;
+        color: #6f6f6f;
+        border: none;
+        background: #f5f5f5;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .pro-qtyJO .qtybtnJO.plus {
+        margin-left: 5px;
+    }
 </style>
 
 <!-- Shoping Cart Section Begin -->
@@ -110,6 +110,7 @@
                                         </td>
                                         <td class="shoping__cart__item__close">
                                             <span class="icon_close"></span>
+                                            <button class="apply-btn" onclick="applyUpdate("@product.ProductID", document.getElementById('quantityInput-@product.ProductID').value)">Apply</button>
                                         </td>
                                     </tr>
                                 }
@@ -196,21 +197,24 @@
         </section>
         <!-- Shoping Cart Section End -->
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var quantityInput = document.querySelector('.pro-qtyJO input');
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var quantityInputs = document.querySelectorAll('.pro-qtyJO input');
+                var plusBtns = document.querySelectorAll('.pro-qtyJO .plus');
+                var minusBtns = document.querySelectorAll('.pro-qtyJO .minus');
 
-        var plusBtn = document.querySelector('.pro-qtyJO .plus');
-        var minusBtn = document.querySelector('.pro-qtyJO .minus');
+                plusBtns.forEach(function (btn, index) {
+                    btn.addEventListener('click', function () {
+                        quantityInputs[index].value = parseInt(quantityInputs[index].value) + 1;
+                    });
+                });
 
-        plusBtn.addEventListener('click', function () {
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-        });
-
-        minusBtn.addEventListener('click', function () {
-            if (parseInt(quantityInput.value) > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
-            }
-        });
-    });
-</script>
+                minusBtns.forEach(function (btn, index) {
+                    btn.addEventListener('click', function () {
+                        if (parseInt(quantityInputs[index].value) > 1) {
+                            quantityInputs[index].value = parseInt(quantityInputs[index].value) - 1;
+                        }
+                    });
+                });
+            });
+        </script>
