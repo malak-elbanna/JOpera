@@ -66,9 +66,15 @@ namespace Project_test.Pages
 
         public IActionResult OnPostLogin(string email, string password)
         {
+<<<<<<< HEAD
             //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+=======
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
+>>>>>>> 76ffba39fb1c0a645dddfa410aaa13bec284e013
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -134,7 +140,8 @@ namespace Project_test.Pages
                 try
                 {
                     string workingHours = $"From {WorkingHour} {AmPm} to {WorkingHours2} {AmPm2}";
-                    string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                    string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                    //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
                     if (IsEmailExists(email, connectionString))
                     {
                         TempData["ErrorMessage"] = "Email already exists. Please use a different email address.";
@@ -208,7 +215,7 @@ namespace Project_test.Pages
                                 }
                             }
 
-                            return RedirectToPage("/Index");
+                            return RedirectToPage("/Login");
                         }
                     }
                 }

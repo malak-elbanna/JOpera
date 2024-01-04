@@ -30,8 +30,14 @@ namespace Project_test.Pages
 
         public IActionResult OnPostAddSP()
         {
+<<<<<<< HEAD
             string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+=======
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+>>>>>>> 76ffba39fb1c0a645dddfa410aaa13bec284e013
             Con = new SqlConnection(conStr);
 
             var userId = HttpContext.Session.GetInt32("UserId");
