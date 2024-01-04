@@ -17,11 +17,14 @@ namespace Project_test.Pages
         public string? Review { get; set; }
         public void OnGet()
         {
+            GetProduct();
         }
 
         public void GetProduct()
         {
-            string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
             Con = new SqlConnection(conStr);
             var productID = HttpContext.Session.GetInt32("ProductID");
             string ProductName = $"select Name from Product where ProductID = {productID} ";
@@ -110,7 +113,9 @@ namespace Project_test.Pages
             // Logic to save the review to the database
             if (!string.IsNullOrEmpty(Review))
             {
-                string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+                //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+                string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
                 Con = new SqlConnection(conStr);
                 using (SqlConnection Con = new SqlConnection(conStr))
                 {
