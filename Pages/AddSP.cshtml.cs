@@ -67,7 +67,7 @@ namespace Project_test.Pages
                         {
                             if (image.Length > 0)
                             {
-                                byte[] imageData = null;
+                                byte[]? imageData = null;
                                 using (var stream = new MemoryStream())
                                 {
                                     image.CopyTo(stream);
