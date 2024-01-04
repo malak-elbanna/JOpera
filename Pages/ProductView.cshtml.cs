@@ -33,9 +33,11 @@ namespace Project_test.Pages
 
         public void GetProduct()
         {
-            string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-
+            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            
             Con = new SqlConnection(conStr);
             var productID = HttpContext.Session.GetInt32("ProductID");
             string ProductName = $"select Name from Product where ProductID = {productID} ";
