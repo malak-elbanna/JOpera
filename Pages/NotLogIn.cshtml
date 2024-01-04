@@ -1,8 +1,7 @@
 ﻿@page
-@model Project_test.Pages.LogoutModel
+@model Project_test.Pages.NotLogInModel
 @{
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,18 +12,19 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            align-items:center;
+            align-items: center;
         }
 
         #message {
             font-size: 20px;
             color: #333;
             margin-bottom: 20px;
-/*             min-height: 25%;
- */        }
+            /*             min-height: 25%;
+         */
+        }
 
         #logoutButton {
-            background-color: #FF0000; /* Green */
+            background-color: #4CAF50; /* Green */
             color: white;
             padding: 10px 17px;
             border: none;
@@ -38,12 +38,12 @@
     </style>
 </head>
 <body>
-    <div style id="message">Already logged in</div>
-    <div style id="message">Do you want to Logout?</div>
+    <div style id="message">Not Logged In</div>
+    <div style id="message">Please Login to view your Cart.</div>
     <form method="post">
-        <button type="submit" id="logoutButton">Logout</button>
+        <button type="submit" id="logoutButton">Login</button>
     </form>
-    <br>    
+    <br>
     <br>
     <br>
     <br>

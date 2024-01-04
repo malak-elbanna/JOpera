@@ -23,7 +23,7 @@ namespace Project_test.Pages
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var userRole = HttpContext.Session.GetString("UserRole");
-            if (userId == 0)
+            if (userId == 0 || userId == null)
             {
                 Console.WriteLine("LOGGED OUT");
             }
@@ -38,7 +38,9 @@ namespace Project_test.Pages
         }
         public void GetFreelancer()
         {
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             Con = new SqlConnection(conStr);
 
             var userId = HttpContext.Session.GetInt32("UserId");

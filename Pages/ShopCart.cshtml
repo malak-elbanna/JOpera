@@ -2,6 +2,72 @@
 @model Project_test.Pages.ShopCartModel
 @{
 }
+<style>
+.pro-qtyJO input {
+    height: 100%;
+    width: 100%;
+    font-size: 16px;
+    color: #6f6f6f;
+    width: 50px;
+    border: none;
+    background: #f5f5f5;
+    text-align: center;
+}
+
+    #logoutButton {
+        background-color: #4CAF50; /* Green */
+        color: white;
+        padding: 10px 17px;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        float: right; /* Add this line */
+    }
+
+.pro-qtyJO .qtybtnJO {
+    width: 35px;
+    font-size: 16px;
+    color: #6f6f6f;
+    cursor: pointer;
+    display: inline-block;
+}
+
+
+.pro-qtyJO .qtybtnJO {
+    width: 30px;
+    height: 30px;
+    background: #f5f5f5;
+    border: none;
+    color: #6f6f6f;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .pro-qtyJO .qtybtnJO:hover {
+        background-color: #e0e0e0;
+    }
+
+.pro-qtyJO input {
+    height: 30px;
+    width: 50px;
+    font-size: 16px;
+    color: #6f6f6f;
+    border: none;
+    background: #f5f5f5;
+    text-align: center;
+    display: inline-block;
+}
+
+.pro-qtyJO .qtybtnJO.plus {
+    margin-left: 5px;
+}
+</style>
+
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
     <div class="container">
@@ -19,95 +85,132 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <h5>Product#1</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    $55.00
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    $110.00
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <h5>Product#2</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    $39.00
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    $39.99
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <h5>Product#3</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    $69.00
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    $69.99
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
-                                </td>
-                            </tr>
+                            @if (Model.Products.Any())
+                            {
+                                @foreach (var product in Model.Products)
+                                {
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <h5>@product.Name</h5>
+                                        </td>
+                                        <td class="shoping__cart__price">
+                                            $@product.Price.00
+                                        </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qtyJO">
+                                                    <button class="qtybtnJO minus">-</button>
+                                                    <input type="text" value="@product.Quantity">
+                                                    <button class="qtybtnJO plus">+</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="shoping__cart__total">
+                                            $@(product.Price * product.Quantity).00
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <span class="icon_close"></span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10">
+                                        Your cart has no Products.
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="shoping__cart__btns">
-                    <a href="/Index" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                    <a href="#" class="primary-btn cart-btn cart-btn-right">
-                        <span class="icon_loading"></span>
-                        Upadate Cart
-                    </a>
+        <section class="shoping-cart spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="shoping__cart__table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="shoping__product">Services</th>
+                                        <th>Price</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Services.Any())
+                                    {
+                                        @foreach (var Service in Model.Services)
+                                        {
+                                            <tr>
+                                                <td class="shoping__cart__item">
+                                                    <h5>@Service.Name</h5>
+                                                </td>
+                                                <td class="shoping__cart__total">
+                                                    $@Service.Price.00
+                                                </td>
+                                                <td class="shoping__cart__item__close">
+                                                    <span class="icon_close"></span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="10">
+                                                Your cart has no Services.
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post">
+                    <button type="submit" id="logoutButton">Update Cart</button>
+                </form>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="shoping__cart__btns">
+                            <a href="/Index" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="shoping__checkout">
+                            <h5>Cart Total</h5>
+                            <ul>
+                                <li>Total <span>$@Model.Total.00</span></li>
+                            </ul>
+                            <a href="/Checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="shoping__checkout">
-                    <h5>Cart Total</h5>
-                    <ul>
-                        <li>Subtotal <span>$454.98</span></li>
-                        <li>Total <span>$454.98</span></li>
-                    </ul>
-                    <a href="/Checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Shoping Cart Section End -->
+        </section>
+        <!-- Shoping Cart Section End -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var quantityInput = document.querySelector('.pro-qtyJO input');
+
+        var plusBtn = document.querySelector('.pro-qtyJO .plus');
+        var minusBtn = document.querySelector('.pro-qtyJO .minus');
+
+        plusBtn.addEventListener('click', function () {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        });
+
+        minusBtn.addEventListener('click', function () {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        });
+    });
+</script>

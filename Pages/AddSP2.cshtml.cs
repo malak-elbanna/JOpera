@@ -29,7 +29,9 @@ namespace Project_test.Pages
 
         public IActionResult OnPostAddSP2()
         {
-            string conStr2 = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr2 = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+            //string conStr2 = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             Con2 = new SqlConnection(conStr2);
 
             string insertServiceQuery = "INSERT INTO Service (Category, Name, Price, Description) VALUES (@Category, @Name, @Price, @Description); SELECT SCOPE_IDENTITY();";
