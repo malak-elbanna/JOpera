@@ -19,6 +19,7 @@ namespace Project_test.Pages
         public string? ProjectName { get; set; }
         public string? ProjectDescription { get; set; }
         public string? Role { get; set; }
+        public List<string>? ServiceList { get; set; }
 
         public void OnGet()
         {
@@ -52,7 +53,7 @@ namespace Project_test.Pages
             string freelancerQuery = $"select Work_Experience, Working_Hours from Freelancers where FreelancerID = {userId}";
             string locationQuery = $"select City, Street_Num from Location where UserID = {userId}";
             string projectQuery = $"select Name, Description from Project where FreelancerID = {userId}";
-            string serviceQuery = $"select ServiceID ";
+            string serviceQuery = $"SELECT s.Name AS ServiceName, cu.CustomerID, u.Fname AS CustomerName\r\nFROM Service s\r\nJOIN Freelancers f ON s.FreelancerID = f.FreelancerID\r\nJOIN contain c ON s.ServiceID = c.ServiceID\r\nJOIN Orders o ON c.OrderID = o.OrderID\r\nJOIN Customers cu ON o.CustomerID = cu.CustomerID\r\nJOIN Users u ON cu.CustomerID = u.UserID\r\nWHERE f.FreelancerID = {userId}\r\n    AND o.Status = 'to-do'\r\n    AND o.Order_Date IS NOT NULL;";
 
             try
             {
@@ -107,6 +108,23 @@ namespace Project_test.Pages
                         }
                     }
                 }
+
+                ServiceList = new List<string>();
+
+                using (SqlCommand cmd = new SqlCommand(serviceQuery, Con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string? serviceName = reader["ServiceName"].ToString();
+                            string? customerName = reader["CustomerName"].ToString();
+                            string? listItem = $"{serviceName} for {customerName}";
+                            ServiceList.Add(listItem);
+                        }
+                    }
+                }
+
             }
             catch (SqlException ex)
             {

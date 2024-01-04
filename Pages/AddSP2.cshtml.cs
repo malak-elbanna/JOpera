@@ -36,7 +36,8 @@ namespace Project_test.Pages
 
             Con2 = new SqlConnection(conStr2);
 
-            string insertServiceQuery = "INSERT INTO Service (Category, Name, Price, Description) VALUES (@Category, @Name, @Price, @Description); SELECT SCOPE_IDENTITY();";
+            var userId = HttpContext.Session.GetInt32("UserId");
+            string insertServiceQuery = $"INSERT INTO Service (Category, Name, Price, Description, FreelancerID) VALUES (@Category, @Name, @Price, @Description, {userId}); SELECT SCOPE_IDENTITY();";
             string insertServiceImageQuery = "INSERT INTO ServiceIMG (serviceID, img) VALUES (@ServiceID, @ImageData);";
 
             try
@@ -60,7 +61,7 @@ namespace Project_test.Pages
                         {
                             if (image.Length > 0)
                             {
-                                byte[] imageData = null;
+                                byte[]? imageData = null;
                                 using (var stream = new MemoryStream())
                                 {
                                     image.CopyTo(stream);
