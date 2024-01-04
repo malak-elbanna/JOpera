@@ -20,28 +20,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-4 mb-lg-0">
-                    <div class="card-body p-0">
-                        <ul class="list-group list-group-flush rounded-3">
-                            <p class="text-muted mb-1 font-weight-bold"> Services To-Do</p>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="#" class="mb-0" style="color: #7fad39;">Service#1</a>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="#" class="mb-0" style="color: #7fad39;">Service#2</a>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="#" class="mb-0" style="color: #7fad39;">Service#3</a>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="#" class="mb-0" style="color: #7fad39;">Service#4</a>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="#" class="mb-0" style="color: #7fad39;">Service#5</a>
-                            </li>
-                        </ul>
+                @if (Model.Role == "freelancer")
+                {
+                    <div class="card mb-4 mb-lg-0">
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush rounded-3">
+                                <p class="text-muted mb-1 font-weight-bold"> Services To-Do</p>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#1</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#2</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#3</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#4</a>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#5</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             <div class="col-lg-8">
                 <div class="card mb-4">
@@ -83,38 +86,41 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card mb-4 mb-md-0">
-                            <div class="card-body">
-                                <p class="mb-4">
-                                    <span class="text-primary font-italic me-1">About Me</span>
-                                </p>
-                                <p class="mb-1" style="font-size: .77rem;">@Model.WorkExperience</p>
-                                <br /><br/>
-                                <div class="d-flex justify-content-center mb-2">
-                                    <a href="/AddSP"><button type="button" class="btn btn-outline-primary ms-1">Add Product</button></a>
-                                    <a href="/AddSP2"><button type="button" class="btn btn-outline-primary ms-1">Add Service</button></a>
+                @if (Model.Role == "freelancer")
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-4 mb-md-0">
+                                <div class="card-body">
+                                    <p class="mb-4">
+                                        <span class="text-primary font-italic me-1">About Me</span>
+                                    </p>
+                                    <p class="mb-1" style="font-size: .77rem;">@Model.WorkExperience</p>
+                                    <br /><br />
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <a href="/AddSP"><button type="button" class="btn btn-outline-primary ms-1">Add Product</button></a>
+                                        <a href="/AddSP2"><button type="button" class="btn btn-outline-primary ms-1">Add Service</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-4 mb-md-0">
+                                <div class="card-body">
+                                    <p class="mb-4">
+                                        <span class="text-primary font-italic me-1">My Projects</span>
+                                    </p>
+                                    <p class="mb-1" style="font-size: .77rem;">@Model.ProjectName</p>
+                                    <p class="mb-1" style="font-size: .77rem;">@Model.ProjectDescription</p>
+                                    <br /><br />
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <a href="/AddProject"><button type="button" class="btn btn-outline-primary ms-1">Add Project</button></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card mb-4 mb-md-0">
-                            <div class="card-body">
-                                <p class="mb-4">
-                                    <span class="text-primary font-italic me-1">My Projects</span>
-                                </p>
-                                <p class="mb-1" style="font-size: .77rem;">@Model.ProjectName</p>
-                                <p class="mb-1" style="font-size: .77rem;">@Model.ProjectDescription</p>
-                                <br /><br />
-                                <div class="d-flex justify-content-center mb-2">
-                                    <a href="/AddProject"><button type="button" class="btn btn-outline-primary ms-1">Add Project</button></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>

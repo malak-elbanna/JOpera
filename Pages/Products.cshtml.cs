@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 using System.Data;
+using System.Reflection.PortableExecutable;
 
 namespace Project_test.Pages
 {
     public class ProductsModel : PageModel
     {
         public List<Productssinfo> products = new List<Productssinfo>();
+        private readonly HashSet<int> displayedProductIDs = new HashSet<int>();
         private readonly ILogger<ProductsModel> _logger;
 
         public ProductsModel(ILogger<ProductsModel> logger)
@@ -19,16 +21,24 @@ namespace Project_test.Pages
         {
             try
             {
+<<<<<<< HEAD
                 string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
                 //string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
+=======
+                string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+>>>>>>> 254a53f3295727a254785e4c7126dd74b468c4da
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT [Name],[Price],[Category] FROM Product";
+                    //string query = "SELECT P.[Name], P.[Price], P.[Category], PI.[img] FROM Product AS P"+
+                    //               "JOIN ProductIMG AS PI ON P.ProductID = PI.ProductID";
+
+                    string query = "SELECT P.ProductID, P.[Name], P.[Price], P.[Category], PI.[img] FROM Product AS P JOIN ProductIMG AS PI ON P.ProductID = PI.ProductID";
 
                     if (!string.IsNullOrEmpty(category))
                     {
-                        query += $" WHERE Category = @category";
+                        query += $" WHERE P.[Category] = @category";
                     }
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -42,11 +52,29 @@ namespace Project_test.Pages
                         {
                             while (data.Read())
                             {
-                                Productssinfo info = new Productssinfo();
-                                info.Price = "" + data.GetInt32(1);
-                                info.Name = data.GetString(0);
-                                info.Category = data.GetString(2);
-                                products.Add(info);
+                                int productID = data.GetInt32(data.GetOrdinal("ProductID"));
+                                if (!displayedProductIDs.Contains(productID))
+                                {
+                                    displayedProductIDs.Add(productID);
+                                    HttpContext.Session.SetInt32("ProductID", productID);
+                                    Productssinfo info = new Productssinfo();
+                                    info.Price = "" + data.GetInt32(2);
+                                    info.Name = data.GetString(1);
+                                    info.Category = data.GetString(3);
+                                    info.ImageData = data.GetSqlBinary(4).Value;
+
+                                    products.Add(info);
+                                }
+                                //Productssinfo info = new Productssinfo();
+                               
+                                //HttpContext.Session.SetInt32("ProductID", productID);
+                                
+                                //info.Price = "" + data.GetInt32(2);
+                                //info.Name = data.GetString(1);
+                                //info.Category = data.GetString(3);
+                                //info.ImageData = data.GetSqlBinary(4).Value;
+
+                                //products.Add(info);
                             }
                         }
                     }
@@ -63,6 +91,10 @@ namespace Project_test.Pages
             public string Name;
             public string Price;
             public string Category { get; set; }
+
+            public byte[] ImageData { get; set; }
+
+        
         }
     }
 }

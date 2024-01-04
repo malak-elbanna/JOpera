@@ -18,12 +18,13 @@ namespace Project_test.Pages
         public string? Location { get; set; }
         public string? ProjectName { get; set; }
         public string? ProjectDescription { get; set; }
+        public string? Role { get; set; }
 
         public void OnGet()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var userRole = HttpContext.Session.GetString("UserRole");
-            if (userId == 0)
+            if (userId == 0 || userId == null)
             {
                 Console.WriteLine("LOGGED OUT");
             }
@@ -34,12 +35,25 @@ namespace Project_test.Pages
                 Console.WriteLine(userId);
                 Console.WriteLine("Role :");
                 Console.WriteLine(userRole);
+                Role = userRole;
             }
         }
         public void GetFreelancer()
         {
+<<<<<<< HEAD
             string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
             //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+=======
+<<<<<<< HEAD
+            
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+=======
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+>>>>>>> 76ffba39fb1c0a645dddfa410aaa13bec284e013
+>>>>>>> 254a53f3295727a254785e4c7126dd74b468c4da
             Con = new SqlConnection(conStr);
 
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -47,6 +61,7 @@ namespace Project_test.Pages
             string freelancerQuery = $"select Work_Experience, Working_Hours from Freelancers where FreelancerID = {userId}";
             string locationQuery = $"select City, Street_Num from Location where UserID = {userId}";
             string projectQuery = $"select Name, Description from Project where FreelancerID = {userId}";
+            string serviceQuery = $"select ServiceID ";
 
             try
             {
