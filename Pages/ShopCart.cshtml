@@ -73,7 +73,12 @@
         cursor: pointer; /* Optional: Add cursor style on hover */
     }
 </style>
-
+@if (TempData.ContainsKey("ErrorMessage"))
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
     <div class="container">
@@ -202,7 +207,9 @@
                             <ul>
                                 <li>Total <span>$@Model.Total.00</span></li>
                             </ul>
-                            <button href="/Checkout" class="primary-btn">PROCEED TO CHECKOUT</button>
+                            <form method="post">
+                                <button asp-page-handler="Checkout" class="primary-btn">PROCEED TO CHECKOUT</button>
+                            </form>
                         </div>
                     </div>
                 </div>

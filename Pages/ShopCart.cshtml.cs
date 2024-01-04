@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.ComponentModel.DataAnnotations;
 using Project_test.Models;
 using Microsoft.Extensions.Primitives;
+using System.Reflection;
 
 namespace Project_test.Pages
 {
@@ -226,5 +227,19 @@ namespace Project_test.Pages
             }
             return RedirectToPage("/ShopCart");
         }
+        public IActionResult OnPostCheckout()
+        {
+            Console.WriteLine("I AM IN CHECKOUT FUCNTION");
+            if(!Products.Any() && !Services.Any())
+            {
+                TempData["ErrorMessage"] = "Your Cart is Empty, Could not proceed to checkout.";
+                return RedirectToPage("/ShopCart");
+            }
+            else
+            {
+                return RedirectToPage("/Checkout");
+            }
+        }
+
     }
 }
