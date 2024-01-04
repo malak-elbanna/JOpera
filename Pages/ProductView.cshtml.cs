@@ -15,6 +15,10 @@ namespace Project_test.Pages
         public string? Description { get; set; }
 
         public string? Review { get; set; }
+
+        public string? Category { get; set; }
+
+        public string? FreelancerName { get; set; }
         public void OnGet()
         {
             GetProduct();
@@ -22,8 +26,8 @@ namespace Project_test.Pages
 
         public void GetProduct()
         {
-            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
             Con = new SqlConnection(conStr);
             var productID = HttpContext.Session.GetInt32("ProductID");
@@ -33,7 +37,8 @@ namespace Project_test.Pages
             string ProductDescription = $"select Description from Product where ProductID = {productID}";
             string Productrating = $"SELECT p.ProductID, r.Rating FROM Product p LEFT JOIN Reviews r ON p.ProductID = r.ProductID";
             string ProductReview = "$SELECT p.ProductID, p.Name, r.Comments FROM Product p LEFT JOIN Reviews r ON p.ProductID = r.ProductID;";
-
+            string ProductCategory = $"select Category from Product where ProductID = {productID}";
+            string ProductFreelancerName = $"SELECT    u.Fname AS FreelancerName FROM    Product p JOIN    Freelancers f ON p.FreelancerID = f.FreelancerID JOIN     Users u ON f.FreelancerID = u.UserID WHERE    p.ProductID = {productID}";
             try
             {
                 Con.Open();
@@ -97,6 +102,30 @@ namespace Project_test.Pages
                         }
                     }
                 }
+
+                using (SqlCommand cmd = new SqlCommand(ProductCategory, Con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Category = reader["Category"].ToString();
+
+                        }
+                    }
+                }
+
+                using (SqlCommand cmd = new SqlCommand(ProductFreelancerName, Con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            FreelancerName = reader["FreelancerName"].ToString();
+
+                        }
+                    }
+                }
             }
             catch (SqlException ex)
             {
@@ -113,8 +142,8 @@ namespace Project_test.Pages
             // Logic to save the review to the database
             if (!string.IsNullOrEmpty(Review))
             {
-                //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-                string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+                //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
                 Con = new SqlConnection(conStr);
                 using (SqlConnection Con = new SqlConnection(conStr))

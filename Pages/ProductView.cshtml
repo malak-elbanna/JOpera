@@ -56,16 +56,17 @@
                     </div>
 
                     <div class="mb-3">
-                        <span class="h5">Product Category</span>
+                        <span class="h5">@Model.Category</span>
                     </div>
 
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Metus aliquam eleifend mi in nulla posuere. Orci porta non pulvinar neque. Viverra orci sagittis eu volutpat. Nullam eget felis eget nunc lobortis. Tristique sollicitudin nibh sit amet commodo nulla. Cras sed felis eget velit aliquet sagittis. Orci porta non pulvinar neque laoreet suspendisse interdum consectetur. Velit ut tortor pretium viverra suspendisse potenti nullam ac. Diam quam nulla porttitor massa id neque aliquam vestibulum.
+                        @Model.Description;
                     </p>
 
                     <div class="row">
                         <dt class="col-3">Released by:</dt>
-                        <dd class="col-9">Freelancer/Craftsmen Name</dd>
+                        <dd class="col-9">@Model.FreelancerName</dd>
+                       
                     </div>
 
                     <hr />
@@ -94,7 +95,7 @@
                     <h5 class="mt-4">Customer Reviews</h5>
                     <div class="mb-4">
                         <br/>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p>@Model.Review</p>
 
                     <!-- Add your own review and rating form -->
                     <h5 class="mt-4">Leave a Review</h5>
