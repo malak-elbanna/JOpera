@@ -23,8 +23,8 @@ namespace Project_test.Pages
             {
                 //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
                 //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-                //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-                string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -60,7 +60,7 @@ namespace Project_test.Pages
                                     info.Name = data.GetString(1);
                                     info.Category = data.GetString(3);
                                     info.ImageData = data.GetSqlBinary(4).Value;
-
+                                    info.ProductID = data.GetInt32(0);
                                     products.Add(info);
                                 }
                                
@@ -79,6 +79,7 @@ namespace Project_test.Pages
         {
             public string Name;
             public string Price;
+            public int ProductID;
             public string Category { get; set; }
 
             public byte[] ImageData { get; set; }

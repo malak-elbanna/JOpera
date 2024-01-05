@@ -31,9 +31,9 @@ namespace Project_test.Pages
         public IActionResult OnPostAddSP()
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
 
             Con = new SqlConnection(conStr);
@@ -67,7 +67,7 @@ namespace Project_test.Pages
                         {
                             if (image.Length > 0)
                             {
-                                byte[] imageData = null;
+                                byte[]? imageData = null;
                                 using (var stream = new MemoryStream())
                                 {
                                     image.CopyTo(stream);

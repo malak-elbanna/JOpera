@@ -26,22 +26,13 @@
                     <div class="card mb-4 mb-lg-0">
                         <div class="card-body p-0">
                             <ul class="list-group list-group-flush rounded-3">
-                                <p class="text-muted mb-1 font-weight-bold"> Services To-Do</p>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#1</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#2</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#3</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#4</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <a href="#" class="mb-0" style="color: #7fad39;">Service#5</a>
-                                </li>
+                                <p class="text-muted mb-1 font-weight-bold">Services To-Do</p>
+                                    @foreach (var serviceItem in Model.ServiceList)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                            <a href="#" class="mb-0" style="color: #7fad39;">@serviceItem</a>
+                                        </li>
+                                    }
                             </ul>
                         </div>
                     </div>
