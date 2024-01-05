@@ -21,6 +21,8 @@ namespace Project_test.Pages
         public string? ProjectDescription { get; set; }
         public string? Role { get; set; }
         public List<string>? ServiceList { get; set; }
+        public List<string>? ProjectNames { get; set; }
+        public List<string>? ProjectDescriptions { get; set; }
 
         public void OnGet()
         {
@@ -44,8 +46,8 @@ namespace Project_test.Pages
         public void GetFreelancer()
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
             //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
@@ -99,17 +101,23 @@ namespace Project_test.Pages
                     }
                 }
 
+                List<string> projectNames = new List<string>();
+                List<string> projectDescriptions = new List<string>();
+
                 using (SqlCommand cmd = new SqlCommand(projectQuery, Con))
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
-                            ProjectName = reader["Name"].ToString();
-                            ProjectDescription = reader["Description"].ToString();
+                            projectNames.Add(reader["Name"].ToString());
+                            projectDescriptions.Add(reader["Description"].ToString());
                         }
                     }
                 }
+
+                ProjectNames = projectNames;
+                ProjectDescriptions = projectDescriptions;
 
                 ServiceList = new List<string>();
 
