@@ -150,22 +150,30 @@ namespace Project_test.Pages
                     }
                 }
 
-                    using (SqlCommand cmd = new SqlCommand(ProductReview, Con))
+                using (SqlCommand cmd = new SqlCommand(ProductReview, Con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                               Review = reader["Comments"].ToString();
+                            Review = reader["Comments"].ToString();
 
-                           }
-                       }
+                        }
                     }
+                }
 
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Con.Close();
             }
         }
 
-        public IActionResult OnPostUpdateQuantity(string updatedProductId, string action)
+        /*public IActionResult OnPostUpdateQuantity(string updatedProductId, string action)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
 
@@ -180,7 +188,7 @@ namespace Project_test.Pages
                 Con.Close();
             }
 
-        }
+        }*/
 
         
 
