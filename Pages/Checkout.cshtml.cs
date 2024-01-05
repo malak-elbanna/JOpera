@@ -450,7 +450,6 @@ namespace Project_test.Pages
                         }
                         else
                         {
-                            // Handle the case when the user with the given ID is not found
                             return NotFound();
                         }
                     }
@@ -497,9 +496,10 @@ namespace Project_test.Pages
                 connection.Open();
 
                 string orderQuery = @"
-                SELECT OrderID, Order_Date, SpecificTime, PaymentID
+                SELECT TOP 1 OrderID, Order_Date, SpecificTime, PaymentID
                 FROM Orders
-                WHERE CustomerID = @UserID";
+                WHERE CustomerID = @UserID
+                ORDER BY OrderID DESC";
 
                 using (SqlCommand orderCommand = new SqlCommand(orderQuery, connection))
                 {
@@ -515,12 +515,10 @@ namespace Project_test.Pages
                                 Order_Date = orderReader.GetDateTime(orderReader.GetOrdinal("Order_Date")),
                                 SpecificTime = orderReader.GetTimeSpan(orderReader.GetOrdinal("SpecificTime")).ToString(),
                                 PaymentID = orderReader.GetInt32(orderReader.GetOrdinal("PaymentID")),
-                                // Add other order properties
                             };
                         }
                         else
                         {
-                            // Handle the case when no orders are found for the user
                             return NotFound();
                         }
                     }
@@ -560,6 +558,64 @@ namespace Project_test.Pages
                     }
                 }
             }
+            List<ProductModel> products = new List<ProductModel>();
+            List<ServiceModel> services = new List<ServiceModel>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string combinedQuery = @"
+        SELECT C.ProductID, C.ServiceID, P.Name AS ProductName, P.Price AS ProductPrice, S.Name AS ServiceName, S.Price AS ServicePrice
+        FROM Contain C
+        LEFT JOIN Product P ON C.ProductID = P.ProductID
+        LEFT JOIN Service S ON C.ServiceID = S.ServiceID
+        WHERE C.OrderID = @OrderID";
+
+                using (SqlCommand combinedCommand = new SqlCommand(combinedQuery, connection))
+                {
+                    combinedCommand.Parameters.AddWithValue("@OrderID", order.OrderID);
+
+                    using (SqlDataReader combinedReader = combinedCommand.ExecuteReader())
+                    {
+                        while (combinedReader.Read())
+                        {
+                            int? productID = combinedReader.IsDBNull(combinedReader.GetOrdinal("ProductID"))
+                                ? (int?)null
+                                : combinedReader.GetInt32(combinedReader.GetOrdinal("ProductID"));
+
+                            int? serviceID = combinedReader.IsDBNull(combinedReader.GetOrdinal("ServiceID"))
+                                ? (int?)null
+                                : combinedReader.GetInt32(combinedReader.GetOrdinal("ServiceID"));
+
+                            if (productID.HasValue)
+                            {
+                                ProductModel product = new ProductModel
+                                {
+                                    ProductID = productID.Value,
+                                    Name = combinedReader.IsDBNull(combinedReader.GetOrdinal("ProductName")) ? null : combinedReader.GetString(combinedReader.GetOrdinal("ProductName")),
+                                    Price = combinedReader.IsDBNull(combinedReader.GetOrdinal("ProductPrice")) ? 0 : combinedReader.GetInt32(combinedReader.GetOrdinal("ProductPrice")),
+                                    Quantity = combinedReader.IsDBNull(combinedReader.GetOrdinal("Quantity")) ? 0 : combinedReader.GetInt32(combinedReader.GetOrdinal("Quantity"))
+                                };
+
+                                products.Add(product);
+                            }
+                            else if (serviceID.HasValue)
+                            {
+                                ServiceModel service = new ServiceModel
+                                {
+                                    ServiceID = serviceID.Value,
+                                    Name = combinedReader.IsDBNull(combinedReader.GetOrdinal("ServiceName")) ? null : combinedReader.GetString(combinedReader.GetOrdinal("ServiceName")),
+                                    Price = combinedReader.IsDBNull(combinedReader.GetOrdinal("ServicePrice")) ? 0 : combinedReader.GetInt32(combinedReader.GetOrdinal("ServicePrice"))
+                                };
+
+                                services.Add(service);
+                            }
+                        }
+                    }
+                }
+            }
+
 
             // Generate PDF
             string pdfFileName = $"Order_{order.OrderID}.pdf";
@@ -590,6 +646,18 @@ namespace Project_test.Pages
                     document.Add(new Paragraph($"Order ID: {order.OrderID}"));
                     document.Add(new Paragraph($"Order Date: {order.Order_Date}"));
                     document.Add(new Paragraph($"Specific Time: {order.SpecificTime}"));
+                    document.Add(new Paragraph("Product Details:"));
+                    foreach (var product in products)
+                    {
+                        document.Add(new Paragraph($"Product ID: {product.ProductID}, Product Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}"));
+                    }
+
+                    // Add service details to the PDF
+                    document.Add(new Paragraph("Service Details:"));
+                    foreach (var service in services)
+                    {
+                        document.Add(new Paragraph($"Service ID: {service.ServiceID}, Service Name: {service.Name}, Price: {service.Price}"));
+                    }
 
                     // Add payment details
                     document.Add(new Paragraph("Payment Details:"));
