@@ -9,6 +9,7 @@ namespace Project_test.Pages
     public class ProductViewModel : PageModel
     {
         public int? userId { get; set; }
+
         public SqlConnection? Con { get; set; }
         public string? Name { get; set; }
         public int? Price { get; set; }
@@ -19,30 +20,35 @@ namespace Project_test.Pages
 
         public float? Rating { get; set; }
         public string? ProductID { get; set; }
+        public string? FreelancerID { get; set; }
+
 
 
         public void OnGet()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-
+            if (Request.Query.TryGetValue("FreelancerID", out var value2))
+            {
+                FreelancerID=value2.ToString();
+            }
 
             if (Request.Query.TryGetValue("ProductID", out var value))
             {
-                
+
                 string passedValue = value.ToString();
                 ProductID = passedValue;
                 Console.WriteLine(passedValue);
                 GetProduct(passedValue);
                 GetProductImages(passedValue);
             }
-          
+
         }
         public void GetProductImages(string productId)
         {
             Images = new List<byte[]>();
 
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
             string selectImagesQuery = $"SELECT img FROM ProductIMG WHERE ProductID = {productId}";
 
@@ -58,7 +64,7 @@ namespace Project_test.Pages
                         if (!reader.IsDBNull(0))
                         {
                             byte[] imageBytes = (byte[])reader["img"];
-                            Images.Add(imageBytes); 
+                            Images.Add(imageBytes);
                         }
                     }
                     reader.Close();
@@ -72,7 +78,7 @@ namespace Project_test.Pages
 
         public void GetProduct(string id)
         {
-            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
             //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
@@ -85,7 +91,7 @@ namespace Project_test.Pages
             string Productrating = $"SELECT Rating FROM Reviews WHERE OrderID = (  SELECT OrderID   FROM contain  WHERE ProductID ={productID});"; //done
             string ProductReview = $"SELECT Comments FROM Reviews WHERE OrderID = (    SELECT OrderID   FROM contain    WHERE ProductID = {productID});"; //done
             string ProductFreeLancerName = $"SELECT    u.Fname  AS FreelancerName FROM    Product p JOIN   Freelancers f ON p.FreelancerID = f.FreelancerID JOIN    Users u ON f.FreelancerID = u.UserID WHERE    p.ProductID =  {productID};"; //done
-            
+
             try
             {
                 Con.Open();
@@ -150,27 +156,19 @@ namespace Project_test.Pages
                     }
                 }
 
-                    using (SqlCommand cmd = new SqlCommand(ProductReview, Con))
+                using (SqlCommand cmd = new SqlCommand(ProductReview, Con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                               Review = reader["Comments"].ToString();
+                            Review = reader["Comments"].ToString();
 
-                           }
-                       }
+                        }
                     }
+                }
 
             }
-        }
-
-        public IActionResult OnPostUpdateQuantity(string updatedProductId, string action)
-        {
-            var userId = HttpContext.Session.GetInt32("UserId");
-
-            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
@@ -182,9 +180,9 @@ namespace Project_test.Pages
 
         }
 
-        
 
 
 
-        }
+
+    }
 }

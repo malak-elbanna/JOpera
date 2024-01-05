@@ -8,6 +8,7 @@ namespace Project_test.Pages
 {
     public class FreelancerProfileModel : PageModel
     {
+        public int? userId { get; set; }
         public SqlConnection? Con { get; set; }
         public string? FreelancerName { get; set; }
         public string? Email { get; set; }
@@ -25,9 +26,11 @@ namespace Project_test.Pages
 
         public void OnGet()
         {
+            Console.WriteLine("im in the onget");
             if (Request.Query.TryGetValue("FreelancerID", out var value))
             {
                 string passedValue = value.ToString();
+                Console.WriteLine($"FREELANCERID ISSS {passedValue}");
                 GetFreelancer(passedValue);
             }
         }
@@ -35,9 +38,9 @@ namespace Project_test.Pages
         public void GetFreelancer(string ID)
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
 
