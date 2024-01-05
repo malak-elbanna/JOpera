@@ -58,7 +58,7 @@ namespace Project_test.Pages
                                  INNER JOIN Product p ON c.ProductID = p.ProductID
                                  WHERE c.CustomerID = @UserID
                                  Group by c.ProductID,c.Quantity, p.Name, p.price ORDER BY c.ProductID";
-
+                    
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@UserID", userId);

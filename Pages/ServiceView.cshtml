@@ -7,27 +7,26 @@
     <div class="container">
         <div class="row gx-5">
             <aside class="col-lg-6">
-                <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                 <div class="border rounded-4 mb-3 d-flex justify-content-center">
                     <a data-fslightbox="mygallery" class="rounded-4" data-type="image" href="#">
-                        <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/img/productView/img-1.jpg" />
+                        <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="data:image;base64,@Convert.ToBase64String(Model.Imagess[0])" />
                     </a>
-                </div>
+                </div> 
                 <div class="d-flex justify-content-center mb-3">
-                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
-                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-2.jpg" onclick="changeLargeFrameImage(this.src)" />
-                    </a>
-                    <!-- Add similar click event handlers to the remaining thumbnail images -->
-                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
-                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-3.jpg" onclick="changeLargeFrameImage(this.src)" />
-                    </a>
-                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
-                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-4.jpg" onclick="changeLargeFrameImage(this.src)" />
-                    </a>
-                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
-                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-5.jpg" onclick="changeLargeFrameImage(this.src)" />
-                    </a>
+                    @if (Model.Imagess != null)
+                    {
+                        @for (int i = 0; i < Model.Imagess.Count; i++)
+                        {
+
+                            <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
+                                <img width="60" height="60" class="rounded-2" src="data:image;base64,@Convert.ToBase64String(Model.Imagess[i])" onclick="changeLargeFrameImage(this.src)" />
+                            </a>
+
+                        }
+                    }
                 </div>
             </aside>
+            
 
             <script>
                 function changeLargeFrameImage(src) {

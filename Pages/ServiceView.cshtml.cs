@@ -17,6 +17,9 @@ namespace Project_test.Pages
 
         public float? Rating { get; set; }
 
+        public List<byte[]>? Imagess { get; set; }
+        public string? ServiceID { get; set; }
+
 
         public void OnGet()
         {
@@ -25,18 +28,56 @@ namespace Project_test.Pages
             {
                 // 'value' contains the value passed in the URL
                 string passedValue = value.ToString();
+                ServiceID = passedValue;
                 Console.WriteLine(passedValue);
                 GetProduct(passedValue);
+                GetServiceImages(passedValue);
             }
 
         }
 
+        
+
+
+       
+        public void GetServiceImages(string ServiceID)
+        {
+            //Console.WriteLine($"{ServiceID}");
+            Imagess = new List<byte[]>();
+            
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            string selectImagesQuery = $"SELECT img FROM ServiceIMG WHERE ServiceID = {ServiceID}";
+
+            using (SqlConnection connection = new SqlConnection(conStr))
+            {
+                SqlCommand command = new SqlCommand(selectImagesQuery, connection);
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (!reader.IsDBNull(0))
+                        {
+                            byte[] imageBytes = (byte[])reader["img"];
+                            Imagess.Add(imageBytes);
+                        }
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
         public void GetProduct(string id)
         {
-            string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
+            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
             // string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
             var serviceID = id;
