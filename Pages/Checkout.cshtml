@@ -2,6 +2,26 @@
 @model Project_test.Pages.CheckoutModel
 @{
 }
+<style>
+    #logoutButton {
+        background-color: #4CAF50; /* Green */
+        color: white;
+        padding: 10px 17px;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+@if (TempData.ContainsKey("ErrorMessage"))
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
     <div class="container">
@@ -10,32 +30,78 @@
             <form action="#">
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
+                        <div>
+                            <h5>User Details</h5>
+                            <p>@($"Name: {Model.User.Fname} {Model.User.Lname}")</p>
+                            <p>@($"Phone: {Model.User.Phone_Number}")</p>
+                            <p>@($"Email: {Model.User.Email}")</p>
+                        </div>
+
+                        <div>
+                            <h5>Locations</h5>
+                            <form id="locationForm">
+                                @foreach (var location in Model.UserLocations)
+                                {
+                                    <div class="location">
+                                        <input type="radio" id="@($"location_{location.City}_{location.Street_Num}_{location.Postal_Code}")"
+                                               name="locationRadio"
+                                               value="@($"location_{location.City}_{location.Street_Num}_{location.Postal_Code}")"
+                                               data-city="@location.City"
+                                               data-street="@location.Street_Num"
+                                               data-zipcode="@location.Postal_Code">
+                                        <label for="@($"location_{location.City}_{location.Street_Num}_{location.Postal_Code}")">
+                                            City: @location.City, Street: @location.Street_Num, Postal Code: @location.Postal_Code
+                                        </label>
+                                    </div>
+                                }
+                            </form>
+                        </div>
                         <div class="checkout__input__checkbox">
                             <label for="diff-acc">
                                 Ship to a different address?
-                                <input type="checkbox" id="diff-acc">
+                                <input type="checkbox" id="diff-acc" onclick="toggleLocationInputs()">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
+
+                        <form method="post">
+                        <div id="locationInputs" style="display: none;">
+                            <!-- Input boxes for selected location -->
+                            <div class="form-group mt-2">
+                                <input type="text" asp-for="city" class="form-control form-style" id="city" placeholder="Your City">
+                                <i class="input-icon uil uil-lock-alt"></i>
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="text" asp-for="street" class="form-control form-style" id="street" placeholder="Your Street">
+                                <i class="input-icon uil uil-lock-alt"></i>
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="number" asp-for="zipCode" class="form-control form-style" id="zip-code" placeholder="Your ZIP Code">
+                                <i class="input-icon uil uil-lock-alt"></i>
+                            </div>
+                        </div>
+                            <button type="submit" asp-page-handler="AddLocation" id="logoutButton" style="display: none;">Submit</button>
+                        </form>
+                        <!-- Your billing details form can go here -->
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="checkout__order">
                             <h4>Your Order</h4>
                             <div class="checkout__order__products">Products & Services <span>Total</span></div>
                             <ul>
-                                <li>Product#1 <span>$75.99</span></li>
-                                <li>Product#2 <span>$151.99</span></li>
-                                <li>Service#1 <span>$53.99</span></li>
+                                @for (int i = 0; i < Model.Products.Count; i++)
+                                {
+                                    var product = Model.Products[i];
+                                    <li>@($"Product#{i + 1} - {product.Name} x {product.Quantity}") <span>@($"${product.Sum}")</span></li>
+                                }
+                                ----------------------------------------
+                                @for (int i = 0; i < Model.Services.Count; i++)
+                                {
+                                    var service = Model.Services[i];
+                                    <li>@($"Service#{i + 1} - {service.Name}") <span>@($"${service.Sum}")</span></li>
+                                }
                             </ul>
-                            <div class="checkout__order__subtotal">Subtotal <span>$750.99</span></div>
-                            <div class="checkout__order__total">Total <span>$750.99</span></div>
-                            <div class="checkout__input__checkbox">
-                                <label for="payment">
-                                    Check Payment
-                                    <input type="checkbox" id="payment">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
+                            <div class="checkout__order__total">Total <span>@($"${Model.Total}")</span></div>
                             <div class="checkout__input__checkbox">
                                 <label for="paypal">
                                     Paypal
@@ -43,7 +109,18 @@
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            <button type="submit" class="site-btn">PLACE ORDER</button>
+                            <form method="post">
+                                <div class="checkout__input__checkbox">
+                                    <label for="receipt">
+                                        Receipt
+                                        <input type="checkbox" id="receipt" asp-for="GenerateReceipt">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <button type="submit" asp-page-handler="Delete" class="site-btn">PLACE ORDER</button>
+                            </form>
+
+                            <!-- Additional checkboxes and payment button can go here -->
                         </div>
                     </div>
                 </div>
@@ -52,3 +129,39 @@
     </div>
 </section>
 <!-- Checkout Section End -->
+
+<script>
+    function toggleLocationInputs() {
+        var locationInputs = document.getElementById('locationInputs');
+        var diffAccCheckbox = document.getElementById('diff-acc');
+        var logoutButton = document.getElementById('logoutButton');
+
+        // Show or hide input boxes based on the checkbox state
+        locationInputs.style.display = diffAccCheckbox.checked ? 'block' : 'none';
+
+        // Show or hide the button based on the checkbox state
+        logoutButton.style.display = diffAccCheckbox.checked ? 'block' : 'none';
+    }
+
+    document.getElementById('locationForm').addEventListener('click', function (event) {
+        if (event.target.type === 'radio') {
+            var selectedLocation = event.target.value;
+            var locationInputs = document.getElementById('locationInputs');
+            var logoutButton = document.getElementById('logoutButton');
+
+            // Show input boxes when a location is selected
+            locationInputs.style.display = 'block';
+
+            // Show or hide the button based on the checkbox state
+            logoutButton.style.display = 'block';
+
+            // Populate input boxes with data from the selected location
+            var selectedRadio = document.querySelector('input[type="radio"]:checked');
+            if (selectedRadio) {
+                document.getElementById('city').value = selectedRadio.dataset.city || '';
+                document.getElementById('street').value = selectedRadio.dataset.street || '';
+                document.getElementById('zip-code').value = selectedRadio.dataset.zipcode || '';
+            }
+        }
+    });
+</script>

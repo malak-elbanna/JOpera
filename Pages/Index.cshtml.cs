@@ -17,6 +17,7 @@ namespace Project_test.Pages
 
         public void OnGet()
         {
+            HttpContext.Session.SetString("ConnectionString", "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True");
             //db.getUsers();
         }
     }
