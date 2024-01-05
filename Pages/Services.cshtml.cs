@@ -32,7 +32,7 @@ namespace Project_test.Pages
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT S.[Name], S.[Price], S.[Category], SI.[img], S.[ServiceID] FROM Service AS S\r\nJOIN ServiceIMG AS SI ON S.ServiceID = SI.ServiceID";
+                    string query = "SELECT S.[Name], S.[Price], S.[Category], SI.[img], S.[ServiceID], S.FreelancerID FROM Service AS S\r\nJOIN ServiceIMG AS SI ON S.ServiceID = SI.ServiceID";
 
                     if (!string.IsNullOrEmpty(category))
                     {
@@ -60,7 +60,7 @@ namespace Project_test.Pages
                                     info.Category = data.GetString(2);
                                     info.ImageData = data.GetSqlBinary(3).Value;
                                     info.serviceID = data.GetInt32(4);
-
+                                    info.FreelancerID = data.GetInt32(5);
 
                                     Services.Add(info);
                                 }
@@ -80,6 +80,7 @@ namespace Project_test.Pages
             public string Name;
             public string Price;
             public int serviceID;
+            public int FreelancerID;
             public string Category { get; set; }
 
             public byte[] ImageData { get; set; }
