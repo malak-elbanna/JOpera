@@ -21,6 +21,7 @@ namespace Project_test.Pages
         public string? ServiceID { get; set; }
 
 
+
         public void OnGet()
         {
 
@@ -36,10 +37,46 @@ namespace Project_test.Pages
 
         }
 
-        
+        public IActionResult OnPostAddToCart(int serviceid)
+        {
+            try
+            {
+
+                string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                using (var connection = new SqlConnection(conStr))
+                {
+                    connection.Open();
+
+                    string insertQuery = "INSERT INTO ServiceCart (CustomerID, ServiceID) VALUES (@CustomerID, @ServiceID)";
+                    using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
+                    {
+                        var userId = HttpContext.Session.GetInt32("UserId");
+
+                        cmd.Parameters.AddWithValue("@CustomerID", userId);
+                        cmd.Parameters.AddWithValue("@ServiceID", serviceid);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            return RedirectToPage("/ShopCart");
+                        }
+                        else
+                        {
+                            return RedirectToPage("/Error");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return RedirectToPage("/Error");
+            }
+        }
 
 
-       
+
         public void GetServiceImages(string ServiceID)
         {
             //Console.WriteLine($"{ServiceID}");

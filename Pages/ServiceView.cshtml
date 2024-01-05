@@ -85,7 +85,13 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+                <form method="post" asp-page-handler="AddToCart">
+
+                    <input type="hidden" name="serviceid" value="@Model.ServiceID" />
+                    <button type="submit" class="btn btn-primary shadow-0">
+                        <i class="me-1 fa fa-shopping-basket"></i> Add to cart
+                    </button>
+                </form>
         </div>
 
         <!-- Review and rating section -->
