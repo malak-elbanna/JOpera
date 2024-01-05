@@ -7,6 +7,32 @@
     <div class="container">
         <div class="row gx-5">
             <aside class="col-lg-6">
+                @* <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                     <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
+                        <img width="60" height="60" class="rounded-2" src="data:image;base64,@Convert.ToBase64String(Model.Images[1])" />
+                    </a> 
+                </div> *@
+                <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                    <a data-fslightbox="mygallery" class="rounded-4" data-type="image" href="#">
+                        <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="data:image;base64,@Convert.ToBase64String(Model.Images[0])" />
+                    </a>
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    @if (Model.Images != null)
+                    {
+                        @for (int i = 0; i < Model.Images.Count; i++)
+                        {
+                           
+                            <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
+                                <img width="60" height="60" class="rounded-2" src="data:image;base64,@Convert.ToBase64String(Model.Images[i])" onclick="changeLargeFrameImage(this.src)" />
+                            </a>
+                            
+                        }
+                    }
+                </div>
+            </aside>
+
+            @* <aside class="col-lg-6">
                 <div class="border rounded-4 mb-3 d-flex justify-content-center">
                     <a data-fslightbox="mygallery" class="rounded-4" data-type="image" href="#">
                         <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/img/productView/img-1.jpg" />
@@ -27,45 +53,46 @@
                         <img width="60" height="60" class="rounded-2" src="/img/productView/img-5.jpg" onclick="changeLargeFrameImage(this.src)" />
                     </a>
                 </div>
-            </aside>
+            </aside> *@
 
-            <script>
+             <script>
                 function changeLargeFrameImage(src) {
                     var largeFrameImage = document.getElementById("large-frame-image");
                     largeFrameImage.src = src;
                 }
-            </script>
+            </script> 
             <main class="col-lg-6">
                 <div class="ps-lg-3">
                     <h4 class="title text-dark">
                         @Model.Name
                     </h4>
-                    <div class="d-flex flex-row my-3">
-                        <div class="text-warning mb-1 me-2">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="ms-1">
-                                4.5
-                            </span>
+                   
+                        <div class="d-flex flex-row my-3">
+                            <div class="text-warning mb-1 me-2">
+                                <i class="fa fa-star"></i>
+                             
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="ms-1">
+                                    @Model.Rating
+                                </span>
+                            </div>
+
+                            <span class="text-success ms-2"> In stock</span>
                         </div>
-                        <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
-                        <span class="text-success ms-2"> In stock</span>
+
                     </div>
 
                     <div class="mb-3">
-                        <span class="h5">Product Category</span>
+                        <span class="h5">@Model.Price</span>
                     </div>
 
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Metus aliquam eleifend mi in nulla posuere. Orci porta non pulvinar neque. Viverra orci sagittis eu volutpat. Nullam eget felis eget nunc lobortis. Tristique sollicitudin nibh sit amet commodo nulla. Cras sed felis eget velit aliquet sagittis. Orci porta non pulvinar neque laoreet suspendisse interdum consectetur. Velit ut tortor pretium viverra suspendisse potenti nullam ac. Diam quam nulla porttitor massa id neque aliquam vestibulum.
+                        @Model.Description;
                     </p>
 
                     <div class="row">
                         <dt class="col-3">Released by:</dt>
-                        <dd class="col-9">Freelancer/Craftsmen Name</dd>
+                    <dd class="col-9"><a href="/FreelancerProfile">@Model.FreelancerName</a></dd>
                     </div>
 
                     <hr />
@@ -78,7 +105,7 @@
                                 <input type="hidden" name="Action" value="" />
                                 <div class="pro-qtyJO">
                                     <button type="submit" name="Action" value="decrease" class="qtybtnJO minus">-</button>
-                                    <input type="text" name="UpdatedQuantity" value="@Model.Quantity" class="quantity-input" readonly />
+                                    @* <input type="text" name="UpdatedQuantity" value="@Model.Quantity" class="quantity-input" readonly /> *@
                                     <button type="submit" name="Action" value="increase" class="qtybtnJO plus">+</button>
                                 </div>
                             </form>
@@ -93,7 +120,7 @@
                     <h5 class="mt-4">Customer Reviews</h5>
                     <div class="mb-4">
                         <br/>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p>@Model.Review</p>
 
                     <!-- Add your own review and rating form -->
                     <h5 class="mt-4">Leave a Review</h5>
