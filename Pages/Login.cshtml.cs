@@ -69,11 +69,15 @@ namespace Project_test.Pages
 
         public IActionResult OnPostLogin(string email, string password)
         {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                TempData["ErrorMessage"] = "Email and password are required.";
+                return RedirectToPage("/Login");
+            }
             //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
             string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             // string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
