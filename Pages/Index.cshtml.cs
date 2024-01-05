@@ -15,10 +15,12 @@ namespace Project_test.Pages
             _logger = logger;
         }
 
+        [BindProperty]
+        public int? userId { get; set; }
+
         public void OnGet()
         {
-            HttpContext.Session.SetString("ConnectionString", "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True");
-            //db.getUsers();
+            userId = HttpContext.Session.GetInt32("UserId");
         }
     }
 }

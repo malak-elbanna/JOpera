@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Project_test.Pages
 {
-    public class FreeLancer_infoModel : PageModel
+    public class FreelancerProfileModel : PageModel
     {
         public int? userId { get; set; }
         public SqlConnection? Con { get; set; }
@@ -20,45 +20,34 @@ namespace Project_test.Pages
         public string? Location { get; set; }
         public string? ProjectName { get; set; }
         public string? ProjectDescription { get; set; }
-        public string? Role { get; set; }
         public List<string>? ServiceList { get; set; }
         public List<string>? ProjectNames { get; set; }
         public List<string>? ProjectDescriptions { get; set; }
 
         public void OnGet()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            var userRole = HttpContext.Session.GetString("UserRole");
-            if (userId == 0 || userId == null)
+            Console.WriteLine("im in the onget");
+            if (Request.Query.TryGetValue("FreelancerID", out var value))
             {
-                Console.WriteLine("LOGGED OUT");
-            }
-            else
-            {
-                GetFreelancer();
-                Console.WriteLine("LOGGED IN WITH ID:");
-                Console.WriteLine(userId);
-                Console.WriteLine("Role :");
-                Console.WriteLine(userRole);
-                Role = userRole;
+                string passedValue = value.ToString();
+                Console.WriteLine($"FREELANCERID ISSS {passedValue}");
+                GetFreelancer(passedValue);
             }
         }
-        
-        public void GetFreelancer()
+
+        public void GetFreelancer(string ID)
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
 
-            var userId = HttpContext.Session.GetInt32("UserId");
-            string userQuery = $"select Fname, Lname, Email, Phone_number from Users where UserID = {userId}";
-            string freelancerQuery = $"select Work_Experience, Working_Hours from Freelancers where FreelancerID = {userId}";
-            string locationQuery = $"select City, Street_Num from Location where UserID = {userId}";
-            string projectQuery = $"select Name, Description from Project where FreelancerID = {userId}";
-            string serviceQuery = $"SELECT s.Name AS ServiceName, cu.CustomerID, u.Fname AS CustomerName\r\nFROM Service s\r\nJOIN Freelancers f ON s.FreelancerID = f.FreelancerID\r\nJOIN contain c ON s.ServiceID = c.ServiceID\r\nJOIN Orders o ON c.OrderID = o.OrderID\r\nJOIN Customers cu ON o.CustomerID = cu.CustomerID\r\nJOIN Users u ON cu.CustomerID = u.UserID\r\nWHERE f.FreelancerID = {userId}\r\n    AND o.Status = 'to-do'\r\n    AND o.Order_Date IS NOT NULL;";
+            string userQuery = $"select Fname, Lname, Email, Phone_number from Users where UserID = {ID}";
+            string freelancerQuery = $"select Work_Experience, Working_Hours from Freelancers where FreelancerID = {ID}";
+            string locationQuery = $"select City, Street_Num from Location where UserID = {ID}";
+            string projectQuery = $"select Name, Description from Project where FreelancerID = {ID}";
 
             try
             {
@@ -102,8 +91,8 @@ namespace Project_test.Pages
                     }
                 }
 
-                List<string> projectNames = new List<string>();
-                List<string> projectDescriptions = new List<string>();
+                List<string>? projectNames = new List<string>();
+                List<string>? projectDescriptions = new List<string>();
 
                 using (SqlCommand cmd = new SqlCommand(projectQuery, Con))
                 {
@@ -120,22 +109,6 @@ namespace Project_test.Pages
                 ProjectNames = projectNames;
                 ProjectDescriptions = projectDescriptions;
 
-                ServiceList = new List<string>();
-
-                using (SqlCommand cmd = new SqlCommand(serviceQuery, Con))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string? serviceName = reader["ServiceName"].ToString();
-                            string? customerName = reader["CustomerName"].ToString();
-                            string? listItem = $"{serviceName} for {customerName}";
-                            ServiceList.Add(listItem);
-                        }
-                    }
-                }
-
             }
             catch (SqlException ex)
             {
@@ -148,3 +121,4 @@ namespace Project_test.Pages
         }
     }
 }
+

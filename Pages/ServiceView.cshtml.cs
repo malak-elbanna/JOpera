@@ -8,6 +8,8 @@ namespace Project_test.Pages
 {
     public class ServiceViewModel : PageModel
     {
+        public int? userId { get; set; }
+
         public SqlConnection? Con { get; set; }
         public string? Name { get; set; }
         public int? Price { get; set; }
@@ -81,8 +83,9 @@ namespace Project_test.Pages
         {
             //Console.WriteLine($"{ServiceID}");
             Imagess = new List<byte[]>();
-            
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+
+            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             string selectImagesQuery = $"SELECT img FROM ServiceIMG WHERE ServiceID = {ServiceID}";
 
             using (SqlConnection connection = new SqlConnection(conStr))
@@ -113,8 +116,8 @@ namespace Project_test.Pages
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
             // string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
             var serviceID = id;

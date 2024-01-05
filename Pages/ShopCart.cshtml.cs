@@ -10,8 +10,9 @@ namespace Project_test.Pages
 {
     public class ShopCartModel : PageModel
     {
-        string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-        //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+        public int? userId { get; set; }
+
+        string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
         public ShopCartModel()
         {
             Products = new List<ProductModel>();

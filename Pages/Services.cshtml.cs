@@ -7,6 +7,8 @@ namespace Project_test.Pages
 {
     public class ServicesModel : PageModel
     {
+        public int? userId { get; set; }
+
         public List<ServicesInfo> Services = new List<ServicesInfo>();
         private readonly HashSet<int> displayedServiceIDs = new HashSet<int>();
         private readonly ILogger<ProductsModel> _logger;
@@ -18,11 +20,13 @@ namespace Project_test.Pages
         }
         public void OnGet(string category)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
             try
             {
                 //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
-                string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-                //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
                 //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))

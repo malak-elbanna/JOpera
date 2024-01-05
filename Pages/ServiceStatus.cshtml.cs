@@ -9,6 +9,8 @@ namespace Project_test.Pages
 {
     public class ServiceStatusModel : PageModel
     {
+        public int? userId { get; set; }
+
         public List<string>? Orders { get; set; }
         [BindProperty]
         public string? customerName { get; set; }
@@ -25,8 +27,8 @@ namespace Project_test.Pages
         {
             List<string> customerNames = new List<string>();
 
-
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             using (SqlConnection Con = new SqlConnection(conStr))
             {
                 var userId = HttpContext.Session.GetInt32("UserId");
@@ -70,7 +72,8 @@ namespace Project_test.Pages
 
         public IActionResult OnPostStatus()
         {
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             using (SqlConnection Con = new SqlConnection(conStr))
             {
                 var userId = HttpContext.Session.GetInt32("UserId");

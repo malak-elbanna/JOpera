@@ -11,9 +11,12 @@ namespace Project_test.Pages
         {
             _logger = logger;
         }
+        public int? userId { get; set; }
 
         public void OnGet()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
         }
     }
 }

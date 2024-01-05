@@ -401,51 +401,24 @@ h6 span{
                                                     <label for="WorkingHours">Working hours:</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text">from</span>
-                                                        <select asp-for="WorkingHour" class="form-control" id="WorkingHour">
-                                                            <option value="">Hour</option>
-                                                            <script>
-                                                                for (let i = 1; i <= 12; i++) {
-                                                                    if (i === 1) {
-                                                                        document.write('<option value="' + i + '" selected>' + i + '</option>');
-                                                                    } else {
-                                                                        document.write('<option value="' + i + '">' + i + '</option>');
-                                                                    }
-                                                                }
-                                                            </script>
-                                                        </select>
-
+                                                        <input asp-for="WorkingHour" class="form-control" id="WorkingHour" type="text" placeholder="Hour">
                                                         <select asp-for="AmPm" class="form-control">
                                                             <span asp-validation-for="AmPm" class="text-danger"></span>
                                                             <option value="" disabled>AM/PM</option>
                                                             <option value="AM" selected>AM</option>
                                                             <option value="PM">PM</option>
                                                         </select>
-
                                                         <span class="input-group-text">to</span>
-
-                                                        <select asp-for="WorkingHours2" class="form-control" id="WorkingHours2">
-                                                            <option value="">Hour</option>
-                                                            <script>
-                                                                for (let i = 1; i <= 12; i++) {
-                                                                    if (i === 1) {
-                                                                        document.write('<option value="' + i + '" selected>' + i + '</option>');
-                                                                    } else {
-                                                                        document.write('<option value="' + i + '">' + i + '</option>');
-                                                                    }
-                                                                }
-                                                            </script>
-                                                        </select>
-                                                        </select>
-
-
+                                                        <input asp-for="WorkingHours2" class="form-control" id="WorkingHours2" type="text" placeholder="Hour">
                                                         <select asp-for="AmPm2" class="form-control">
                                                             <option value="" disabled>AM/PM</option>
                                                             <option value="AM" selected>AM</option>
                                                             <option value="PM">PM</option>
                                                         </select>
-
                                                     </div>
                                                 </div>
+                                                <span asp-validation-for="WorkingHours2" class="text-danger"></span>
+                                                <span asp-validation-for="WorkingHour" class="text-danger"></span>
 
 
 

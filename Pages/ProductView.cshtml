@@ -8,9 +8,10 @@
         <div class="row gx-5">
             <aside class="col-lg-6">
                 @* <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                     <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
-                        <img width="60" height="60" class="rounded-2" src="data:image;base64,@Convert.ToBase64String(Model.Images[1])" />
-                    </a> 
+                <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
+                <img width="60" height="60" class="rounded-2" src="data:image;base64,@Convert.ToBase64String(Model.Images[1])" />
+                </a
+                >
                 </div> *@
 
                 
@@ -36,69 +37,69 @@
             </aside>
 
             @* <aside class="col-lg-6">
-                <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                    <a data-fslightbox="mygallery" class="rounded-4" data-type="image" href="#">
-                        <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/img/productView/img-1.jpg" />
-                    </a>
-                </div>
-                <div class="d-flex justify-content-center mb-3">
-                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
-                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-2.jpg" onclick="changeLargeFrameImage(this.src)" />
-                    </a>
-                    <!-- Add similar click event handlers to the remaining thumbnail images -->
-                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
-                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-3.jpg" onclick="changeLargeFrameImage(this.src)" />
-                    </a>
-                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
-                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-4.jpg" onclick="changeLargeFrameImage(this.src)" />
-                    </a>
-                    <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
-                        <img width="60" height="60" class="rounded-2" src="/img/productView/img-5.jpg" onclick="changeLargeFrameImage(this.src)" />
-                    </a>
-                </div>
+            <div class="border rounded-4 mb-3 d-flex justify-content-center">
+            <a data-fslightbox="mygallery" class="rounded-4" data-type="image" href="#">
+            <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/img/productView/img-1.jpg" />
+            </a>
+            </div>
+            <div class="d-flex justify-content-center mb-3">
+            <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
+            <img width="60" height="60" class="rounded-2" src="/img/productView/img-2.jpg" onclick="changeLargeFrameImage(this.src)" />
+            </a>
+            <!-- Add similar click event handlers to the remaining thumbnail images -->
+            <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
+            <img width="60" height="60" class="rounded-2" src="/img/productView/img-3.jpg" onclick="changeLargeFrameImage(this.src)" />
+            </a>
+            <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
+            <img width="60" height="60" class="rounded-2" src="/img/productView/img-4.jpg" onclick="changeLargeFrameImage(this.src)" />
+            </a>
+            <a data-fslightbox="mygallery" class="border mx-1 rounded-2" data-type="image" href="#" class="item-thumb">
+            <img width="60" height="60" class="rounded-2" src="/img/productView/img-5.jpg" onclick="changeLargeFrameImage(this.src)" />
+            </a>
+            </div>
             </aside> *@
 
-             <script>
+            <script>
                 function changeLargeFrameImage(src) {
                     var largeFrameImage = document.getElementById("large-frame-image");
                     largeFrameImage.src = src;
                 }
-            </script> 
+            </script>
             <main class="col-lg-6">
                 <div class="ps-lg-3">
                     <h4 class="title text-dark">
                         @Model.Name
                     </h4>
-                   
-                        <div class="d-flex flex-row my-3">
-                            <div class="text-warning mb-1 me-2">
-                                <i class="fa fa-star"></i>
-                             
-                                <i class="fas fa-star-half-alt"></i>
-                                <span class="ms-1">
-                                    @Model.Rating
-                                </span>
-                            </div>
 
-                            <span class="text-success ms-2"> In stock</span>
+                    <div class="d-flex flex-row my-3">
+                        <div class="text-warning mb-1 me-2">
+                            <i class="fa fa-star"></i>
+
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="ms-1">
+                                @Model.Rating
+                            </span>
                         </div>
 
+                        <span class="text-success ms-2"> In stock</span>
                     </div>
 
-                    <div class="mb-3">
-                        <span class="h5">@Model.Price</span>
-                    </div>
+                </div>
 
-                    <p>
-                        @Model.Description;
-                    </p>
+                <div class="mb-3">
+                    <span class="h5">@Model.Price</span>
+                </div>
 
-                    <div class="row">
-                        <dt class="col-3">Released by:</dt>
-                        <dd class="col-9">@Model.FreelancerName</dd>
-                    </div>
+                <p>
+                    @Model.Description;
+                </p>
 
-                    <hr />
+                <div class="row">
+                    <dt class="col-3">Released by:</dt>
+                    <dd class="col-9"><a href="/FreelancerProfile?FreelancerID=@Model.FreelancerID">@Model.FreelancerName</a></dd>
+                </div>
+
+                <hr />
 
                     <div class="row mb-4">
                         <!-- col.// -->
@@ -124,38 +125,38 @@
 
                 </div>
 
-                <!-- Review and rating section -->
-                    <hr />
+        <!-- Review and rating section -->
+        <hr />
 
-                    <h5 class="mt-4">Customer Reviews</h5>
-                    <div class="mb-4">
-                        <br/>
-                        <p>@Model.Review</p>
+        <h5 class="mt-4">Customer Reviews</h5>
+        <div class="mb-4">
+            <br />
+            <p>@Model.Review</p>
 
-                    <!-- Add your own review and rating form -->
-                    <h5 class="mt-4">Leave a Review</h5>
-                    <br/>
-                    <form>
-                        <div class="mb-3">
-                            <select class="form-select" id="rating" name="rating">
-                                <option selected disabled>Select a Rating</option>
-                                <option value="1">1 star</option>
-                                <option value="2">2 stars</option>
-                                <option value="3">3 stars</option>
-                                <option value="4">4 stars</option>
-                                <option value="5">5 stars</option>
-                            </select>
-                        </div>
-                        <br/><br/>
-                        <div class="mb-3">
-                            <textarea class="form-control" id="review" name="Review" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-
+            <!-- Add your own review and rating form -->
+            <h5 class="mt-4">Leave a Review</h5>
+            <br />
+            <form>
+                <div class="mb-3">
+                    <select class="form-select" id="rating" name="rating">
+                        <option selected disabled>Select a Rating</option>
+                        <option value="1">1 star</option>
+                        <option value="2">2 stars</option>
+                        <option value="3">3 stars</option>
+                        <option value="4">4 stars</option>
+                        <option value="5">5 stars</option>
+                    </select>
                 </div>
-            </main>
+                <br /><br />
+                <div class="mb-3">
+                    <textarea class="form-control" id="review" name="Review" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
         </div>
+        </main>
+    </div>
     </div>
 </section>
 <!-- content -->

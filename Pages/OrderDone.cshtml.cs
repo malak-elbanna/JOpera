@@ -5,8 +5,12 @@ namespace Project_test.Pages
 {
     public class OrderDoneModel : PageModel
     {
+        public int? userId { get; set; }
+
         public void OnGet()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
         }
     }
 }

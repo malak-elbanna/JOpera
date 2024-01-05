@@ -6,8 +6,12 @@ namespace Project_test.Pages
 {
     public class LogoutModel : PageModel
     {
+        public int? userId { get; set; }
+
         public void OnGet()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
         }
         public IActionResult OnPost() {
             HttpContext.Session.SetInt32("UserId", 0);

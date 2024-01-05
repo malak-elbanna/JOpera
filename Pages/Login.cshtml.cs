@@ -36,7 +36,9 @@ namespace Project_test.Pages
         public string? phone { get; set; }
         [Required]
         public string? birthdate { get; set; }
+        [Range(1, 12, ErrorMessage = "Working hour must be between 1 and 12.")]
         public string? WorkingHour { get; set; }
+        [Range(1, 12, ErrorMessage = "Working hour must be between 1 and 12.")]
         public string? WorkingHours2 { get; set; }
         public string? freelancerProjectD { get; set; }
         public string? freelancerProjectN { get; set; }
@@ -49,6 +51,7 @@ namespace Project_test.Pages
         public string? role { get; set; }
 
 
+        public int? userId { get; set; }
 
         public void OnGet()
         {
@@ -67,9 +70,9 @@ namespace Project_test.Pages
         public IActionResult OnPostLogin(string email, string password)
         {
             //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            // string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
