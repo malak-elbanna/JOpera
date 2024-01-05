@@ -79,6 +79,7 @@ namespace Project_test.Pages
         }
         public IActionResult OnPostAddToCart(int productId)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == 0 || userId == null)
             {
                 return RedirectToPage("/Login");
@@ -96,7 +97,7 @@ namespace Project_test.Pages
                         string insertQuery = "INSERT INTO ProductCart (CustomerID, ProductID, Quantity) VALUES (@CustomerID, @ProductID, 1)";
                         using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
                         {
-                            var userId = HttpContext.Session.GetInt32("UserId");
+                            
 
                             cmd.Parameters.AddWithValue("@CustomerID", userId);
                             cmd.Parameters.AddWithValue("@ProductID", productId);
