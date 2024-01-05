@@ -22,9 +22,14 @@
                                 <a href="/ServiceStatus"><button type="button" class="btn btn-outline-primary ms-1">Update Service Status</button></a>
                             </div>
                         }
-                        <div class="d-flex justify-content-center mb-2">
-                            <a href="/ChangePass"><button type="button" class="btn btn-outline-primary ms-1">Change Account Password</button></a>
-                        </div>
+                        @if (Model.Role == "freelancer" || Model.Role == "customer")
+                        {
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="/ChangePass">
+                                    <button type="button" class="btn btn-outline-primary btn-success ms-1 text-white">Change Account Password</button>
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
                 @if (Model.Role == "freelancer")
