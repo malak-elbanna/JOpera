@@ -8,6 +8,7 @@ namespace Project_test.Pages
 {
     public class ProductViewModel : PageModel
     {
+        public int? userId { get; set; }
         public SqlConnection? Con { get; set; }
         public string? Name { get; set; }
         public int? Price { get; set; }
@@ -18,7 +19,9 @@ namespace Project_test.Pages
         public int? Quantity { get; set; }
         public void OnGet()
         {
-            
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+
             if (Request.Query.TryGetValue("ProductID", out var value))
             {
                 // 'value' contains the value passed in the URL
@@ -32,10 +35,10 @@ namespace Project_test.Pages
         public void GetProduct(string id)
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            
+
             Con = new SqlConnection(conStr);
             var productID = id;
             string ProductName = $"select Name from Product where ProductID = {productID} ";
@@ -164,8 +167,8 @@ namespace Project_test.Pages
         {
             var userId = HttpContext.Session.GetInt32("UserId");
 
-            //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
             Quantity = action == "increase" ? 1 : -1;
 

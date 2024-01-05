@@ -1,19 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace Project_test.Pages
 {
     public class ChangePassModel : PageModel
     {
+        public int? userId { get; set; }
+
         [BindProperty]
         public string? NewPassword { get; set; }
         [BindProperty]
         public string? ConfirmPassword { get; set; }
 
+        public void OnGet()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+        }
+
         public IActionResult OnPostPassword()
         {
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=TrueData Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             using (SqlConnection con = new SqlConnection(conStr))
             {
                 var userId = HttpContext.Session.GetInt32("UserId");

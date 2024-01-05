@@ -16,15 +16,16 @@ namespace Project_test.Pages
         {
             _logger = logger;
         }
-        
+        public int? userId { get; set; }
+
         public void OnGet(string type)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
             try
             {
-                var userId = HttpContext.Session.GetInt32("UserId");
-
-                string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-                //string connectionString = "Data Source = Bayoumi; Initial Catalog = JOpera; Integrated Security = True";
+                //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                string connectionString = "Data Source = Bayoumi; Initial Catalog = JOpera; Integrated Security = True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

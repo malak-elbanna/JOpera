@@ -10,15 +10,18 @@ namespace Project_test.Pages
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public int? userId { get; set; }
+
         public void OnGet()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
         }
         public void OnPost()
         {
             try
             {
-                //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-                string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+                //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

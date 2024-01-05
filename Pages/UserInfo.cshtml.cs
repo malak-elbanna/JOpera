@@ -8,6 +8,7 @@ namespace Project_test.Pages
 {
     public class FreeLancer_infoModel : PageModel
     {
+        public int? userId { get; set; }
         public SqlConnection? Con { get; set; }
         public string? FreelancerName { get; set; }
         public string? Email { get; set; }

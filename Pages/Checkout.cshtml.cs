@@ -15,6 +15,8 @@ namespace Project_test.Pages
     [BindProperties]
     public class CheckoutModel : PageModel
     {
+        public int? userId { get; set; }
+
         public bool GenerateReceipt { get; set; }
         public string? city { get; set; }
         public string? street { get; set; }

@@ -36,7 +36,9 @@ namespace Project_test.Pages
         public string? phone { get; set; }
         [Required]
         public string? birthdate { get; set; }
+        [Range(1, 12, ErrorMessage = "Working hour must be between 1 and 12.")]
         public string? WorkingHour { get; set; }
+        [Range(1, 12, ErrorMessage = "Working hour must be between 1 and 12.")]
         public string? WorkingHours2 { get; set; }
         public string? freelancerProjectD { get; set; }
         public string? freelancerProjectN { get; set; }
@@ -49,6 +51,7 @@ namespace Project_test.Pages
         public string? role { get; set; }
 
 
+        public int? userId { get; set; }
 
         public void OnGet()
         {

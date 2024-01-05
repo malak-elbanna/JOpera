@@ -11,8 +11,12 @@ namespace Project_test.Pages
 {
     public class AddSPModel : PageModel
     {
+        public int? userId { get; set; }
+
         public void OnGet()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
         }
 
         public SqlConnection? Con { get; set; }
@@ -31,9 +35,9 @@ namespace Project_test.Pages
         public IActionResult OnPostAddSP()
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
 
             Con = new SqlConnection(conStr);
