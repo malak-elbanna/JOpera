@@ -12,7 +12,7 @@ namespace Project_test.Pages
     {
         public int? userId { get; set; }
 
-        string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+        string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
         public ShopCartModel()
         {
             Products = new List<ProductModel>();
@@ -49,7 +49,7 @@ namespace Project_test.Pages
                 //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
                 //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
                 //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-                string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

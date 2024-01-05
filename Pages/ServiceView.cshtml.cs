@@ -51,7 +51,7 @@ namespace Project_test.Pages
                 try
                 {
 
-                    string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                    string conStr = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
                     using (var connection = new SqlConnection(conStr))
                     {
                         connection.Open();
@@ -92,7 +92,7 @@ namespace Project_test.Pages
             //Console.WriteLine($"{ServiceID}");
             Imagess = new List<byte[]>();
 
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
             //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             string selectImagesQuery = $"SELECT img FROM ServiceIMG WHERE ServiceID = {ServiceID}";
 
@@ -125,7 +125,7 @@ namespace Project_test.Pages
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
             // string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
             var serviceID = id;
