@@ -24,8 +24,8 @@ namespace Project_test.Pages
         public List<string> GetOrders()
         {
             List<string> customerNames = new List<string>();
-
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             using (SqlConnection Con = new SqlConnection(conStr))
             {
                 var userId = HttpContext.Session.GetInt32("UserId");
@@ -69,7 +69,8 @@ namespace Project_test.Pages
 
         public IActionResult OnPostStatus()
         {
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             using (SqlConnection Con = new SqlConnection(conStr))
             {
                 var userId = HttpContext.Session.GetInt32("UserId");

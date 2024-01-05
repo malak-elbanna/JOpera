@@ -76,7 +76,8 @@ namespace Project_test.Pages
         {
             public string Method { get; set; }
         }
-        string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+        string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+        //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
         public void OnGet()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -229,7 +230,8 @@ namespace Project_test.Pages
         {
             var userId = HttpContext.Session.GetInt32("UserId");
 
-            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
