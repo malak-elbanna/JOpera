@@ -76,7 +76,7 @@ namespace Project_test.Pages
                                     info.Name = data.GetString(2);
                                     info.Type = data.GetString(0);
                                     info.ImageData = data.GetSqlBinary(4).Value;
-
+                                    info.id = data.GetInt32(1);
                                     ProductsServices.Add(info);
                                 }
                             }
@@ -96,6 +96,7 @@ namespace Project_test.Pages
             public string Price { get; set; }
             public byte[] ImageData { get; set; }
             public string Type { get; set; }
+            public int id { get; set; }
         }
     }
 
