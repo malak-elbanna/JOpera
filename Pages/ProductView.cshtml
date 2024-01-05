@@ -13,24 +13,27 @@
                 </a
                 >
                 </div> *@
-                <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                    <a data-fslightbox="mygallery" class="rounded-4" data-type="image" href="#">
-                        <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="data:image;base64,@Convert.ToBase64String(Model.Images[0])" />
-                    </a>
-                </div>
-                <div class="d-flex justify-content-center mb-3">
+
+                
                     @if (Model.Images != null)
                     {
+                        <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                            <a data-fslightbox="mygallery" class="rounded-4" data-type="image" href="#">
+                                <img id="large-frame-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="data:image;base64,@Convert.ToBase64String(Model.Images[0])" />
+                            </a>
+                        </div>
+                    <div class="d-flex justify-content-center mb-3">
                         @for (int i = 0; i < Model.Images.Count; i++)
                         {
-
+                        
                             <a data-fslightbox="mygallery" class="border mx-1 rounded-2 item-thumb" data-type="image" href="#">
                                 <img width="60" height="60" class="rounded-2" src="data:image;base64,@Convert.ToBase64String(Model.Images[i])" onclick="changeLargeFrameImage(this.src)" />
                             </a>
-
-                        }
+                        
                     }
-                </div>
+                    </div>
+                    }
+                
             </aside>
 
             @* <aside class="col-lg-6">
@@ -98,22 +101,29 @@
 
                 <hr />
 
-                <div class="row mb-4">
-                    <!-- col.// -->
-                    <div class="quantity">
-                        <form method="post" asp-page-handler="UpdateQuantity">
-                            <input type="hidden" name="UpdatedProductId" value="@Model.ProductID" />
-                            <input type="hidden" name="Action" value="" />
-                            <div class="pro-qtyJO">
-                                <button type="submit" name="Action" value="decrease" class="qtybtnJO minus">-</button>
-                                @* <input type="text" name="UpdatedQuantity" value="@Model.Quantity" class="quantity-input" readonly /> *@
-                                <button type="submit" name="Action" value="increase" class="qtybtnJO plus">+</button>
-                            </div>
-                        </form>
-                    </div>
+                    <div class="row mb-4">
+                        <!-- col.// -->
+                        @* <div class="quantity">
+                            <form method="post" asp-page-handler="UpdateQuantity">
+                                <input type="hidden" name="UpdatedProductId" value="@Model.ProductID" />
+                                <input type="hidden" name="Action" value="" />
+                                <div class="pro-qtyJO">
+                                    <button type="submit" name="Action" value="decrease" class="qtybtnJO minus">-</button>
+                                    @* <input type="text" name="UpdatedQuantity" value="@Model.Quantity" class="quantity-input" readonly /> *@
+                                   @*  <button type="submit" name="Action" value="increase" class="qtybtnJO plus">+</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div> *@
+                    <form method="post" asp-page-handler="AddToCart">
+
+                        <input type="hidden" name="productId" value="@Model.ProductID" />
+                        <button type="submit" class="btn btn-primary shadow-0">
+                            <i class="me-1 fa fa-shopping-basket"></i> Add to cart
+                        </button>
+                    </form>
+
                 </div>
-                <a href="#" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
-        </div>
 
         <!-- Review and rating section -->
         <hr />

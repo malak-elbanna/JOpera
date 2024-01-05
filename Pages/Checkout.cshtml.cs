@@ -78,8 +78,8 @@ namespace Project_test.Pages
         {
             public string Method { get; set; }
         }
-        //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-        string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+        string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+        //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
         public void OnGet()
         {
             var userId = HttpContext.Session.GetInt32("UserId");

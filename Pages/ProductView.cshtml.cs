@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Project_test.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Project_test.Pages
@@ -44,10 +45,11 @@ namespace Project_test.Pages
         }
         public void GetProductImages(string productId)
         {
+            ProductID = productId;
             Images = new List<byte[]>();
 
-            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
             string selectImagesQuery = $"SELECT img FROM ProductIMG WHERE ProductID = {productId}";
@@ -75,13 +77,53 @@ namespace Project_test.Pages
                 }
             }
         }
+        public IActionResult OnPostAddToCart(int productId)
+        {
+            try
+            {
+
+                string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                using (var connection = new SqlConnection(conStr))
+                {
+                    connection.Open();
+
+                    string insertQuery = "INSERT INTO ProductCart (CustomerID, ProductID, Quantity) VALUES (@CustomerID, @ProductID, 1)";
+                    using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
+                    {
+                        var userId = HttpContext.Session.GetInt32("UserId"); 
+
+                        cmd.Parameters.AddWithValue("@CustomerID", userId);
+                        cmd.Parameters.AddWithValue("@ProductID", productId);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            return RedirectToPage("/ShopCart"); 
+                        }
+                        else
+                        {
+                            return RedirectToPage("/Error"); 
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return RedirectToPage("/Error");
+            }
+        }
+
+        
+
 
         public void GetProduct(string id)
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
             //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
             var productID = id;
@@ -177,8 +219,24 @@ namespace Project_test.Pages
             {
                 Con.Close();
             }
-
         }
+
+        /*public IActionResult OnPostUpdateQuantity(string updatedProductId, string action)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Con.Close();
+            }
+
+        }*/
 
 
 
