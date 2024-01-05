@@ -28,12 +28,12 @@
         <div class="row featured__filter">
             <div class="col-lg-3 col-md-4 col-sm-6 mix artwork">
                 <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/product/product-1.jpg">
-                        <ul class="featured__item__pic__hover">
+                    <div class="featured_item_pic set-bg" data-setbg="img/product/product-1.jpg">
+                        <ul class="featured_itempic_hover">
                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                         </ul>
                     </div>
-                    <div class="featured__item__text">
+                    <div class="featured_item_text">
                         <h6><a href="ProductView">Artwork</a></h6>
                         <h5>$30.00</h5>
                     </div>
@@ -41,12 +41,12 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 mix handcrafted-jewelry">
                 <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                        <ul class="featured__item__pic__hover">
+                    <div class="featured_item_pic set-bg" data-setbg="img/product/product-2.jpg">
+                        <ul class="featured_itempic_hover">
                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                         </ul>
                     </div>
-                    <div class="featured__item__text">
+                    <div class="featured_item_text">
                         <h6><a href="ProductView">jewelry</a></h6>
                         <h5>$30.00</h5>
                     </div>
@@ -54,12 +54,12 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 mix home-decor">
                 <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/product/product-3.jpg">
-                        <ul class="featured__item__pic__hover">
+                    <div class="featured_item_pic set-bg" data-setbg="img/product/product-3.jpg">
+                        <ul class="featured_itempic_hover">
                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                         </ul>
                     </div>
-                    <div class="featured__item__text">
+                    <div class="featured_item_text">
                         <h6><a href="ProductView">Home Decor</a></h6>
                         <h5>$30.00</h5>
                     </div>
@@ -67,12 +67,12 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 mix clothing">
                 <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/product/product-4.jpg">
-                        <ul class="featured__item__pic__hover">
+                    <div class="featured_item_pic set-bg" data-setbg="img/product/product-4.jpg">
+                        <ul class="featured_itempic_hover">
                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                         </ul>
                     </div>
-                    <div class="featured__item__text">
+                    <div class="featured_item_text">
                         <h6><a href="ProductView">Clothing</a></h6>
                         <h5>$30.00</h5>
                     </div>
@@ -80,12 +80,12 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 mix pottery">
                 <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/product/product-5.jpg">
-                        <ul class="featured__item__pic__hover">
+                    <div class="featured_item_pic set-bg" data-setbg="img/product/product-5.jpg">
+                        <ul class="featured_itempic_hover">
                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                         </ul>
                     </div>
-                    <div class="featured__item__text">
+                    <div class="featured_item_text">
                         <h6><a href="ProductView">Pottery</a></h6>
                         <h5>$30.00</h5>
                     </div>
@@ -93,12 +93,12 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 mix woodwork">
                 <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/product/product-6.jpg">
-                        <ul class="featured__item__pic__hover">
+                    <div class="featured_item_pic set-bg" data-setbg="img/product/product-6.jpg">
+                        <ul class="featured_itempic_hover">
                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                         </ul>
                     </div>
-                    <div class="featured__item__text">
+                    <div class="featured_item_text">
                         <h6><a href="ProductView">Woodwork</a></h6>
                         <h5>$30.00</h5>
                     </div>
@@ -131,12 +131,12 @@
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 mix @product.Category">
                     <div class="featured__item">
-                      <div class="featured__item__pic set-bg" data-setbg="data:image;base64,@Convert.ToBase64String(product.ImageData)">
-                           @*  <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul> *@
-                        </div> 
-                        <div class="featured__item__text">
+                        <div class="featured_item_pic set-bg" data-setbg="data:image;base64,@Convert.ToBase64String(product.ImageData)">
+                            @*  <ul class="featured_itempic_hover">
+                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                        </ul> *@
+                        </div>
+                        <div class="featured_item_text">
                             <h6><a href="/ProductView?ProductID=@product.ProductID&FreelancerID=@product.FreelancerID">@product.Name</a></h6>
                             <h5>@product.Price</h5>
                         </div>
@@ -148,4 +148,4 @@
     </div>
 </section>
 
-    <!-- Any additional content or styling -->
+<!-- Any additional content or styling -->

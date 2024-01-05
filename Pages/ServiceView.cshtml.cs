@@ -129,12 +129,12 @@ namespace Project_test.Pages
 
             Con = new SqlConnection(conStr);
             var serviceID = id;
-            string serviceName = $"select Name from Product where ProductID = {serviceID} ";  
-            string servicePrice = $"select Price from Product where ProductID = {serviceID}";  
-            string serviceDescription = $"select Description from Product where ProductID = {serviceID}";
-            string servicerating = $"SELECT Rating FROM Reviews WHERE OrderID = (  SELECT OrderID   FROM contain  WHERE ProductID ={serviceID});"; 
-            string serviceReview = $"SELECT Comments FROM Reviews WHERE OrderID = (    SELECT OrderID   FROM contain    WHERE ProductID = {serviceID});"; 
-            string serviceFreeLancerName = $"SELECT    u.Fname  AS FreelancerName FROM    Product p JOIN   Freelancers f ON p.FreelancerID = f.FreelancerID JOIN    Users u ON f.FreelancerID = u.UserID WHERE    p.ProductID =  {serviceID};"; 
+            string serviceName = $"select Name from Service where ServiceID = {serviceID} ";  
+            string servicePrice = $"select Price from Service where ServiceID = {serviceID}";  
+            string serviceDescription = $"select Description from Service where ServiceID = {serviceID}";
+            string servicerating = $"SELECT Rating FROM Reviews WHERE OrderID = (  SELECT OrderID   FROM contain  WHERE ServiceID ={serviceID});"; 
+            string serviceReview = $"SELECT Comments FROM Reviews WHERE OrderID = (    SELECT OrderID   FROM contain    WHERE ServiceID = {serviceID});"; 
+            string serviceFreeLancerName = $"SELECT    u.Fname  AS FreelancerName FROM    Product p JOIN   Freelancers f ON p.FreelancerID = f.FreelancerID JOIN    Users u ON f.FreelancerID = u.UserID WHERE    p.ServiceID =  {serviceID};"; 
             try
             {
                 Con.Open();
