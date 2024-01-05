@@ -13,7 +13,8 @@ namespace Project_test.Pages
 
         public IActionResult OnPostPassword()
         {
-            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             using (SqlConnection con = new SqlConnection(conStr))
             {
                 var userId = HttpContext.Session.GetInt32("UserId");
