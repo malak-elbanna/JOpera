@@ -25,6 +25,7 @@ namespace Project_test.Pages
             {
                 // 'value' contains the value passed in the URL
                 string passedValue = value.ToString();
+                ProductID = passedValue;
                 Console.WriteLine(passedValue);
                 GetProduct(passedValue);
             }
