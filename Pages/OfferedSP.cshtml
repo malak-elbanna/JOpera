@@ -77,13 +77,20 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 mix @item.Type">
                         <div class="featured__item">
                             <div class="featured__item__pic set-bg" data-setbg="data:image;base64,@Convert.ToBase64String(item.ImageData)">
-                                <ul class="featured__item__pic__hover">
+                                @* <ul class="featured__item__pic__hover">
                                     <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                </ul>
+                                </ul> *@
                             </div>
                             <div class="featured__item__text">
-                                <h6><a href="#">@item.Name</a></h6>
-                                <h5>@item.Price</h5>
+                            @if (item.Type == "Product")
+                            {
+                                <h6><a href="/ProductView?ProductID=@item.id">@item.Name</a></h6>
+                            }
+                            else
+                            {
+                                <h6><a href="/ServiceView?ServiceID=@item.id">@item.Name</a></h6>
+                            }
+                            <h5>@item.Price</h5>
                             </div>
                         </div>
                     </div>

@@ -36,13 +36,15 @@ namespace Project_test.Pages
                         command.ExecuteNonQuery();
                     }
                 }
-            }
-            catch (Exception)
-            {
 
-                throw;
             }
-            Response.Redirect("/UserInfo");
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+                
+            }
+
+            Response.Redirect("/ThankYou");
         }
     }
 }
