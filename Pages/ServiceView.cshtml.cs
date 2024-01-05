@@ -134,7 +134,7 @@ namespace Project_test.Pages
             string serviceDescription = $"select Description from Service where ServiceID = {serviceID}";
             string servicerating = $"SELECT Rating FROM Reviews WHERE OrderID = (  SELECT OrderID   FROM contain  WHERE ServiceID ={serviceID});"; 
             string serviceReview = $"SELECT Comments FROM Reviews WHERE OrderID = (    SELECT OrderID   FROM contain    WHERE ServiceID = {serviceID});"; 
-            string serviceFreeLancerName = $"SELECT    u.Fname  AS FreelancerName FROM    Product p JOIN   Freelancers f ON p.FreelancerID = f.FreelancerID JOIN    Users u ON f.FreelancerID = u.UserID WHERE    p.ServiceID =  {serviceID};"; 
+            string serviceFreeLancerName = $"SELECT    u.Fname  AS FreelancerName FROM    Service p JOIN   Freelancers f ON p.FreelancerID = f.FreelancerID JOIN    Users u ON f.FreelancerID = u.UserID WHERE    p.ServiceID =  {serviceID};"; 
             try
             {
                 Con.Open();
