@@ -41,39 +41,47 @@ namespace Project_test.Pages
 
         public IActionResult OnPostAddToCart(int serviceid)
         {
-            try
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == 0 || userId == null)
             {
-
-                string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-                using (var connection = new SqlConnection(conStr))
+                return RedirectToPage("/Login");
+            }
+            else
+            {
+                try
                 {
-                    connection.Open();
 
-                    string insertQuery = "INSERT INTO ServiceCart (CustomerID, ServiceID) VALUES (@CustomerID, @ServiceID)";
-                    using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
+                    string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                    using (var connection = new SqlConnection(conStr))
                     {
-                        var userId = HttpContext.Session.GetInt32("UserId");
+                        connection.Open();
 
-                        cmd.Parameters.AddWithValue("@CustomerID", userId);
-                        cmd.Parameters.AddWithValue("@ServiceID", serviceid);
-
-                        int rowsAffected = cmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
+                        string insertQuery = "INSERT INTO ServiceCart (CustomerID, ServiceID) VALUES (@CustomerID, @ServiceID)";
+                        using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
                         {
-                            return RedirectToPage("/ShopCart");
-                        }
-                        else
-                        {
-                            return RedirectToPage("/Error");
+
+
+                            cmd.Parameters.AddWithValue("@CustomerID", userId);
+                            cmd.Parameters.AddWithValue("@ServiceID", serviceid);
+
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                return RedirectToPage("/ShopCart");
+                            }
+                            else
+                            {
+                                return RedirectToPage("/Error");
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return RedirectToPage("/Error");
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return RedirectToPage("/Error");
+                }
             }
         }
 
@@ -84,8 +92,8 @@ namespace Project_test.Pages
             //Console.WriteLine($"{ServiceID}");
             Imagess = new List<byte[]>();
 
-            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             string selectImagesQuery = $"SELECT img FROM ServiceIMG WHERE ServiceID = {ServiceID}";
 
             using (SqlConnection connection = new SqlConnection(conStr))
@@ -116,8 +124,8 @@ namespace Project_test.Pages
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
             // string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
             var serviceID = id;
