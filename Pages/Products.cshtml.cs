@@ -22,8 +22,8 @@ namespace Project_test.Pages
             try
             {
                 //string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
-                string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-                //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+                string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
                 //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -32,7 +32,7 @@ namespace Project_test.Pages
                     //string query = "SELECT P.[Name], P.[Price], P.[Category], PI.[img] FROM Product AS P"+
                     //               "JOIN ProductIMG AS PI ON P.ProductID = PI.ProductID";
 
-                    string query = "SELECT P.ProductID, P.[Name], P.[Price], P.[Category], PI.[img] FROM Product AS P JOIN ProductIMG AS PI ON P.ProductID = PI.ProductID";
+                    string query = "SELECT P.ProductID, P.[Name], P.[Price], P.[Category], PI.[img], P.FreelancerID FROM Product AS P JOIN ProductIMG AS PI ON P.ProductID = PI.ProductID";
 
                     if (!string.IsNullOrEmpty(category))
                     {
@@ -61,6 +61,7 @@ namespace Project_test.Pages
                                     info.Category = data.GetString(3);
                                     info.ImageData = data.GetSqlBinary(4).Value;
                                     info.ProductID = data.GetInt32(0);
+                                    info.FreelancerID = data.GetInt32(5);
                                     products.Add(info);
                                 }
 
@@ -80,6 +81,7 @@ namespace Project_test.Pages
             public string Name;
             public string Price;
             public int ProductID;
+            public int FreelancerID;
             public string Category { get; set; }
 
             public byte[] ImageData { get; set; }
