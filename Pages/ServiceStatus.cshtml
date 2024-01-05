@@ -80,20 +80,24 @@
 </head>
 <div class="container">
     <br /><br />
-    <h1>Update Service Status</h1>
-    <form method="post">
-        <label for="type">Choose which one to update</label>
-        <select id="type" name="type">
-            <option value="product">Service#1</option>
-            <option value="service">Service#2</option>
-            <option value="service">Service#3</option>
-            <option value="service">Service#4</option>
-            <option value="service">Service#5</option>
+    <h1>Update Order Status</h1>
+    <br /><br />
+    <form method="post" asp-page-handler="OnPostStatus">
+        <label for="customerName">Choose which one to update</label>
+        <select id="customerName" name="CustomerName" asp-for="customerName">
+            @foreach (var order in Model.Orders)
+            {
+                <option value="@order">Order for @order</option>
+            }
         </select>
         <br><br>
         <label for="status" id="statusLabel">Status:</label>
-        <input type="text" id="status" name="status" min="0" required>
-        <a href="/UserInfo"><input class="btn mt-4" type="submit" value="Update"></a>
+        <select id="status" name="Status" asp-for="Status">
+            <option value="in progress">In Progress</option>
+            <option value="to-do">To-Do</option>
+            <option value="finished">Finished</option>
+        </select>
+        <input asp-page-handler="Status" class="btn mt-4" type="submit" value="Submit">
     </form>
-    <br><br>
+    <br /><br /> <br /><br />
 </div>

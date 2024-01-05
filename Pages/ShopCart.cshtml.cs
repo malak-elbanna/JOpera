@@ -44,7 +44,8 @@ namespace Project_test.Pages
             }
             else
             {
-                string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+                string connectionString = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";
+                //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
                 //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
                 //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
