@@ -25,6 +25,7 @@ namespace Project_test.Pages
         {
             List<string> customerNames = new List<string>();
 
+
             string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
             using (SqlConnection Con = new SqlConnection(conStr))
             {

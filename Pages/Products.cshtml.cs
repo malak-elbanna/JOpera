@@ -63,7 +63,7 @@ namespace Project_test.Pages
                                     info.ProductID = data.GetInt32(0);
                                     products.Add(info);
                                 }
-                               
+
                             }
                         }
                     }
@@ -84,7 +84,7 @@ namespace Project_test.Pages
 
             public byte[] ImageData { get; set; }
 
-        
+
         }
     }
 }
