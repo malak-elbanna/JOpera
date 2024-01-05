@@ -47,8 +47,8 @@ namespace Project_test.Pages
             Images = new List<byte[]>();
 
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
             string selectImagesQuery = $"SELECT img FROM ProductIMG WHERE ProductID = {productId}";
 
@@ -79,8 +79,8 @@ namespace Project_test.Pages
         public void GetProduct(string id)
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             //string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
 
             Con = new SqlConnection(conStr);

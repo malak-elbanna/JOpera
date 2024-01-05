@@ -118,15 +118,20 @@
                                     {
                                         @for (int i = 0; i < Model.ProjectNames.Count; i++)
                                         {
-                                            <p class="mb-1" style="font-size: .77rem;">@Model.ProjectNames[i]</p>
-                                            <p class="mb-1" style="font-size: .77rem;">@Model.ProjectDescriptions[i]</p>
+                                            <div class="mb-3">
+                                                <p class="mb-1" style="font-size: .77rem;">@Model.ProjectNames[i]</p>
+                                                <p class="mb-1" style="font-size: .77rem;">@Model.ProjectDescriptions[i]</p>
+                                                @if (i != Model.ProjectNames.Count - 1)
+                                                {
+                                                    <hr style="border-top: 1px solid #ccc;">
+                                                }
+                                            </div>
                                         }
                                     }
                                     else
                                     {
                                         <p>No projects found.</p>
                                     }
-
                                     <br /><br />
                                     <div class="d-flex justify-content-center mb-2">
                                         <a href="/AddProject"><button type="button" class="btn btn-outline-primary ms-1">Add Project</button></a>
