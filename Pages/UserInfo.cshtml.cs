@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 
@@ -39,6 +40,7 @@ namespace Project_test.Pages
                 Role = userRole;
             }
         }
+        
         public void GetFreelancer()
         {
             //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=JOperaF;Integrated Security=True";

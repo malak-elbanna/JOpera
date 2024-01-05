@@ -13,8 +13,9 @@ namespace Project_test.Pages
         public int? Price { get; set; }
         public int? FreelancerID { get; set; }
         public string? Description { get; set; }
-
         public string? Review { get; set; }
+        public string? ProductID { get; set; }
+        public int? Quantity { get; set; }
         public void OnGet()
         {
             
@@ -22,6 +23,7 @@ namespace Project_test.Pages
             {
                 // 'value' contains the value passed in the URL
                 string passedValue = value.ToString();
+                ProductID = passedValue;
                 Console.WriteLine(passedValue);
                 GetProduct(passedValue);
             }
@@ -155,6 +157,44 @@ namespace Project_test.Pages
 
                 }
 
+            }
+        }
+
+        public IActionResult OnPostUpdateQuantity(string updatedProductId, string action)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+            string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
+            Quantity = action == "increase" ? 1 : -1;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string updateQuery = @"
+                            UPDATE ProductCart
+                            SET Quantity = CASE WHEN Quantity + @QuantityChange < 1 THEN 1 ELSE Quantity + @QuantityChange END
+                            WHERE ProductID = @UpdatedProductId AND CustomerID = @UserId";
+
+                using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@QuantityChange", Quantity);
+                    updateCommand.Parameters.AddWithValue("@UpdatedProductId", updatedProductId);
+                    updateCommand.Parameters.AddWithValue("@UserId", userId);
+
+                    int rowsAffected = updateCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToPage("/ShopCart", new { ProductID = updatedProductId });
+                    }
+                    else
+                    {
+                        return Page();
+                    }
+                }
             }
         }
     }
