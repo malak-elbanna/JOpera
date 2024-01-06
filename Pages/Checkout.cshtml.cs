@@ -78,8 +78,8 @@ namespace Project_test.Pages
         {
             public string Method { get; set; }
         }
-        string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-        //string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+        //string connectionString = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
+        string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
         public void OnGet()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -274,7 +274,6 @@ namespace Project_test.Pages
             }
             else
             {
-                Console.WriteLine("el user tl3 5wl....");
             }
             DateTime now = DateTime.Now;
             string date = $"{now.Year}-{now.Month:D2}-{now.Day:D2}";
@@ -328,10 +327,12 @@ namespace Project_test.Pages
                                 while (reader.Read())
                                 {
                                     int productID = reader.GetInt32(reader.GetOrdinal("ProductID"));
+                                    int ProductQuantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
 
                                     Products.Add(new ProductModel
                                     {
                                         ProductID = productID,
+                                        Quantity = ProductQuantity
                                     });
                                 }
                             }
@@ -371,8 +372,8 @@ namespace Project_test.Pages
                 }
 
                 string insertContainQuery = @"
-            INSERT INTO Contain (OrderID, ProductID, ServiceID)
-            VALUES (@OrderID, @ProductID, @ServiceID)";
+            INSERT INTO Contain (OrderID, ProductID, ServiceID,Quantity)
+            VALUES (@OrderID, @ProductID, @ServiceID,@Quantity)";
 
                 using (SqlCommand insertContainCommand = new SqlCommand(insertContainQuery, connection))
                 {
@@ -388,6 +389,8 @@ namespace Project_test.Pages
 
                         insertContainCommand.Parameters.AddWithValue("@ServiceID", DBNull.Value);
 
+                        insertContainCommand.Parameters.AddWithValue("@Quantity", product.Quantity);
+
                         insertContainCommand.ExecuteNonQuery();
                     }
 
@@ -400,6 +403,8 @@ namespace Project_test.Pages
                         insertContainCommand.Parameters.AddWithValue("@ProductID", DBNull.Value);
 
                         insertContainCommand.Parameters.AddWithValue("@ServiceID", service.ServiceID);
+
+                        insertContainCommand.Parameters.AddWithValue("@Quantity", DBNull.Value);
 
                         insertContainCommand.ExecuteNonQuery();
                     }
@@ -570,7 +575,7 @@ namespace Project_test.Pages
                 connection.Open();
 
                 string combinedQuery = @"
-        SELECT C.ProductID, C.ServiceID, P.Name AS ProductName, P.Price AS ProductPrice, S.Name AS ServiceName, S.Price AS ServicePrice
+        SELECT C.ProductID, C.ServiceID, P.Name AS ProductName, P.Price AS ProductPrice, S.Name AS ServiceName, S.Price AS ServicePrice, C.Quantity
         FROM Contain C
         LEFT JOIN Product P ON C.ProductID = P.ProductID
         LEFT JOIN Service S ON C.ServiceID = S.ServiceID

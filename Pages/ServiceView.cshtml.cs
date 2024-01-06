@@ -23,13 +23,13 @@ namespace Project_test.Pages
         public string? ServiceID { get; set; }
 
 
+        string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
         public void OnGet()
         {
 
             if (Request.Query.TryGetValue("ServiceID", out var value))
             {
-                // 'value' contains the value passed in the URL
                 string passedValue = value.ToString();
                 ServiceID = passedValue;
                 Console.WriteLine(passedValue);
@@ -51,7 +51,6 @@ namespace Project_test.Pages
                 try
                 {
 
-                    string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
                     using (var connection = new SqlConnection(conStr))
                     {
                         connection.Open();
@@ -92,8 +91,6 @@ namespace Project_test.Pages
             //Console.WriteLine($"{ServiceID}");
             Imagess = new List<byte[]>();
 
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
             string selectImagesQuery = $"SELECT img FROM ServiceIMG WHERE ServiceID = {ServiceID}";
 
             using (SqlConnection connection = new SqlConnection(conStr))
@@ -122,10 +119,6 @@ namespace Project_test.Pages
 
         public void GetProduct(string id)
         {
-            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
-            // string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
 
             Con = new SqlConnection(conStr);
             var serviceID = id;

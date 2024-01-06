@@ -2,6 +2,12 @@
 @model Project_test.Pages.ProductViewModel
 @{
 }
+@if (TempData["ReviewMessage"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["ReviewMessage"]
+    </div>
+}
 <!-- content -->
 <section class="py-5">
     <div class="container">
@@ -87,11 +93,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <span class="h5">@Model.Price</span>
+                    <span class="h5">$@Model.Price</span>
                 </div>
 
                 <p>
-                    @Model.Description;
+                    @Model.Description
                 </p>
 
                 <div class="row">
@@ -101,7 +107,7 @@
 
                 <hr />
 
-                    <div class="row mb-4">
+                @*<div class="row mb-4">
                         <!-- col.// -->
                         @* <div class="quantity">
                             <form method="post" asp-page-handler="UpdateQuantity">
@@ -109,8 +115,8 @@
                                 <input type="hidden" name="Action" value="" />
                                 <div class="pro-qtyJO">
                                     <button type="submit" name="Action" value="decrease" class="qtybtnJO minus">-</button>
-                                    @* <input type="text" name="UpdatedQuantity" value="@Model.Quantity" class="quantity-input" readonly /> *@
-                                   @*  <button type="submit" name="Action" value="increase" class="qtybtnJO plus">+</button>
+                                    @* <input type="text" name="UpdatedQuantity" value="@Model.Quantity" class="quantity-input" readonly /> 
+                                     <button type="submit" name="Action" value="increase" class="qtybtnJO plus">+</button>
                                 </div>
                             </form>
                         </div>
@@ -127,18 +133,14 @@
 
         <!-- Review and rating section -->
         <hr />
-
-        <h5 class="mt-4">Customer Reviews</h5>
-        <div class="mb-4">
-            <br />
-            <p>@Model.Review</p>
-
             <!-- Add your own review and rating form -->
+        @if (Model.ProductInUserOrders)
+        {
             <h5 class="mt-4">Leave a Review</h5>
-            <br />
-            <form>
+            <form method="post" asp-page-handler="Review">
+                <input type="hidden" name="ProductID" value="@Model.ProductID">
                 <div class="mb-3">
-                    <select class="form-select" id="rating" name="rating">
+                    <select class="form-select" id="rating" name="ReviewRating" asp-for="ReviewRating">
                         <option selected disabled>Select a Rating</option>
                         <option value="1">1 star</option>
                         <option value="2">2 stars</option>
@@ -147,16 +149,27 @@
                         <option value="5">5 stars</option>
                     </select>
                 </div>
-                <br /><br />
                 <div class="mb-3">
-                    <textarea class="form-control" id="review" name="Review" rows="3"></textarea>
+                    <textarea class="form-control" id="review" name="ReviewComment" rows="3" asp-for="ReviewComment"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-
+        }
+        else
+        {
+            <div class="text-danger">You first need to buy the product in order to leave a review!</div>
+        }
+        <h5 class="mt-4">Customer Reviews:</h5>
+        <div class="mb-4">
+            <br />
+            @foreach (var review in Model.Reviews)
+            {
+                <p style="font-size: 16px; font-weight: bold;">Rating: @review.Rating</p>
+                <p style="font-size: 14px;">Comment: @review.Comment</p>
+                <p>---------------------------------------</p>
+                <hr />
+            }
         </div>
-        </main>
-    </div>
-    </div>
+
 </section>
 <!-- content -->

@@ -1,3 +1,4 @@
+using iText.Layout.Borders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,6 +10,16 @@ namespace Project_test.Pages
 {
     public class ProductViewModel : PageModel
     {
+        public class ReviewModel
+        {
+            public int Rating { get; set; }
+            public string Comment { get; set; }
+        }
+        [BindProperty]
+        public int ReviewRating { get; set; }
+
+        [BindProperty]
+        public string ReviewComment { get; set; }
         public int? userId { get; set; }
 
         public SqlConnection? Con { get; set; }
@@ -21,12 +32,17 @@ namespace Project_test.Pages
 
         public float? Rating { get; set; }
         public string? ProductID { get; set; }
+
         public string? FreelancerID { get; set; }
+        [BindProperty]
+        public bool ProductInUserOrders { get; set; }
+        public List<ReviewModel> Reviews { get; set; } = new List<ReviewModel>();
 
-
+        string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
 
         public void OnGet()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
             if (Request.Query.TryGetValue("FreelancerID", out var value2))
             {
                 FreelancerID=value2.ToString();
@@ -40,17 +56,48 @@ namespace Project_test.Pages
                 Console.WriteLine(passedValue);
                 GetProduct(passedValue);
                 GetProductImages(passedValue);
+                ProductInUserOrders = IsProductInUserOrders(userId ?? 1, int.Parse(ProductID));
+                Reviews = GetProductReviews(ProductID);
             }
 
+        }
+        public List<ReviewModel> GetProductReviews(string productId)
+        {
+            List<ReviewModel> reviews = new List<ReviewModel>();
+
+            string selectReviewsQuery = $@"
+SELECT Rating, Comments
+FROM Reviews
+WHERE ProductID = {productId}";
+
+            using (SqlConnection connection = new SqlConnection(conStr))
+            {
+                SqlCommand command = new SqlCommand(selectReviewsQuery, connection);
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int rating = Convert.ToInt32(reader["Rating"]);
+                        string comment = reader["Comments"].ToString();
+                        reviews.Add(new ReviewModel { Rating = rating, Comment = comment });
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return reviews;
         }
         public void GetProductImages(string productId)
         {
             ProductID = productId;
             Images = new List<byte[]>();
 
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
             string selectImagesQuery = $"SELECT img FROM ProductIMG WHERE ProductID = {productId}";
 
@@ -82,12 +129,21 @@ namespace Project_test.Pages
             try
             {
 
-                string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
                 using (var connection = new SqlConnection(conStr))
                 {
                     connection.Open();
 
-                    string insertQuery = "INSERT INTO ProductCart (CustomerID, ProductID, Quantity) VALUES (@CustomerID, @ProductID, 1)";
+                    //string insertQuery = "INSERT INTO ProductCart (CustomerID, ProductID, Quantity) VALUES (@CustomerID, @ProductID, 1) ON DUPLICATE KEY UPDATE Quantity = Quantity + 1;";
+                    string insertQuery = @"
+    MERGE INTO ProductCart AS target
+    USING (VALUES (@CustomerID, @ProductID)) AS source(CustomerID, ProductID)
+    ON target.CustomerID = source.CustomerID AND target.ProductID = source.ProductID
+    WHEN MATCHED THEN
+        UPDATE SET Quantity = target.Quantity + 1
+    WHEN NOT MATCHED THEN
+        INSERT (CustomerID, ProductID, Quantity)
+        VALUES (source.CustomerID, source.ProductID, 1);
+";
                     using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
                     {
                         var userId = HttpContext.Session.GetInt32("UserId"); 
@@ -114,17 +170,8 @@ namespace Project_test.Pages
                 return RedirectToPage("/Error");
             }
         }
-
-        
-
-
         public void GetProduct(string id)
         {
-            //string conStr = "Data Source=DESKTOP-05RUH8H;Initial Catalog=joperaffff;Integrated Security=True";
-            //string conStr = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            //string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            string conStr = "Data Source=Alasil;Initial Catalog=JOperaFFFFF;Integrated Security=True";
-
             Con = new SqlConnection(conStr);
             var productID = id;
             string ProductName = $"select Name from Product where ProductID = {productID} ";  //done
@@ -220,27 +267,131 @@ namespace Project_test.Pages
                 Con.Close();
             }
         }
-
-        /*public IActionResult OnPostUpdateQuantity(string updatedProductId, string action)
+        public bool IsProductInUserOrders(int userId, int productId)
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
+            List<int> orderIds = GetOrderIdsByUserId(userId);
 
-            string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
-            //string connectionString = "Data Source=MALAKELBANNA;Initial Catalog=JOperaFFFFF;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-            catch (SqlException ex)
+                foreach (int orderId in orderIds)
+            {
+                if (IsProductInOrder(userId, orderId, productId))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private List<int> GetOrderIdsByUserId(int userId)
+        {
+            string selectOrdersQuery = @"
+SELECT OrderID
+FROM Orders
+WHERE CustomerID = @CustomerId";
+
+            List<int> orderIds = new List<int>();
+
+
+            using (SqlConnection connection = new SqlConnection(conStr))
+            {
+                using (SqlCommand command = new SqlCommand(selectOrdersQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerId", userId);
+
+                    try
+                    {
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (!reader.IsDBNull(reader.GetOrdinal("OrderID")))
+                                {
+                                    int orderId = reader.GetInt32(reader.GetOrdinal("OrderID"));
+                                    orderIds.Add(orderId);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            }
+            return orderIds;
+        }
+
+        private bool IsProductInOrder(int userId, int orderId, int productId)
+        {
+            string selectContainQuery = $"SELECT ProductID FROM Contain WHERE OrderID = {orderId}";
+
+            using (SqlConnection connection = new SqlConnection(conStr))
+            {
+                SqlCommand command = new SqlCommand(selectContainQuery, connection);
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (!reader.IsDBNull(0))
+                        {
+                            int productInOrder = Convert.ToInt32(reader["ProductID"]);
+                            if (productInOrder == productId)
+                            {
+                                Console.WriteLine("FOUND ORDEEERRRRR");
+                                return true;
+                            }
+                        }
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            Console.WriteLine("didnt find any....");
+            return false;
+        }
+
+        public IActionResult OnPostReview(string ProductID)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("UserId");
+                var orderIds = GetOrderIdsByUserId(userId ?? 1);
+
+                int orderId = orderIds[0];
+
+                string insertReviewQuery = @"
+INSERT INTO Reviews (Rating, Comments,CustomerID, OrderID,ProductID)
+VALUES (@Rating, @Comments,@CustomerID, @OrderID,@ProductID);";
+
+                using (SqlConnection connection = new SqlConnection(conStr))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(insertReviewQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Rating", ReviewRating);
+                        command.Parameters.AddWithValue("@Comments", ReviewComment);
+                        command.Parameters.AddWithValue("@OrderID", orderId);
+                        command.Parameters.AddWithValue("@CustomerID", userId);
+                        command.Parameters.AddWithValue("@ProductID", ProductID);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                TempData["ReviewMessage"] = "Review submitted successfully!";
+                return RedirectToPage("/Products");
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                TempData["ReviewMessage"] = "Error submitting the review. Please try again.";
+                return RedirectToPage("/ProductView");
             }
-            finally
-            {
-                Con.Close();
-            }
-
-        }*/
-
-
-
-
-
+        }
     }
 }

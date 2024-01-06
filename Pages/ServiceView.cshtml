@@ -56,11 +56,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <span class="h5">@Model.Price</span>
+                    <span class="h5">$@Model.Price</span>
                 </div>
 
                 <p>
-                    @Model.Description;
+                    @Model.Description
                 </p>
 
                 <div class="row">
@@ -72,19 +72,6 @@
 
                 <div class="row mb-4">
                     <!-- col.// -->
-                    <div class="col-md-4 col-6 mb-3">
-                        <label class="mb-2 d-block">Quantity</label>
-                        <div class="input-group mb-3" style="width: 170px;">
-                            <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon1" data-mdb-ripple-color="dark">
-                                <i>-</i>
-                            </button>
-                            <input type="text" class="form-control text-center border border-secondary" placeholder="14" aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                            <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon2" data-mdb-ripple-color="dark">
-                                <i>+</i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
                 <form method="post" asp-page-handler="AddToCart">
 
                     <input type="hidden" name="serviceid" value="@Model.ServiceID" />
@@ -94,36 +81,7 @@
                 </form>
         </div>
 
-        <!-- Review and rating section -->
-        <hr />
-
-        <h5 class="mt-4">Customer Reviews</h5>
-        <div class="mb-4">
-            <br />
-            <p>@Model.Review</p>
-
-            <!-- Add your own review and rating form -->
-            <h5 class="mt-4">Leave a Review</h5>
-            <br />
-            <form>
-                <div class="mb-3">
-                    <select class="form-select" id="rating" name="rating">
-                        <option selected disabled>Select a Rating</option>
-                        <option value="1">1 star</option>
-                        <option value="2">2 stars</option>
-                        <option value="3">3 stars</option>
-                        <option value="4">4 stars</option>
-                        <option value="5">5 stars</option>
-                    </select>
                 </div>
-                <br /><br />
-                <div class="mb-3">
-                    <textarea class="form-control" id="review" name="Review" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-
-        </div>
         </main>
     </div>
     </div>
