@@ -22,11 +22,14 @@ namespace Project_test.Pages
         public List<byte[]>? Imagess { get; set; }
         public string? ServiceID { get; set; }
 
-
-        string conStr = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+        public string? FreelancerID { get; set; }
 
         public void OnGet()
         {
+            if (Request.Query.TryGetValue("FreelancerID", out var value2))
+            {
+                FreelancerID = value2.ToString();
+            }
 
             if (Request.Query.TryGetValue("ServiceID", out var value))
             {

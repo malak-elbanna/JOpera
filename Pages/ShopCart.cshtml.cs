@@ -12,7 +12,7 @@ namespace Project_test.Pages
     {
         public int? userId { get; set; }
 
-        string connectionString = "Data Source=Bayoumi;Initial Catalog=JOpera;Integrated Security=True";
+        string connectionString = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
         public ShopCartModel()
         {
             Products = new List<ProductModel>();

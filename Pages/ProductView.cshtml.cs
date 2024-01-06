@@ -126,50 +126,53 @@ WHERE ProductID = {productId}";
         }
         public IActionResult OnPostAddToCart(int productId)
         {
-            try
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == 0 || userId == null)
             {
-
-                using (var connection = new SqlConnection(conStr))
+                return RedirectToPage("/Login");
+            }
+            else
+            {
+                try
                 {
-                    connection.Open();
 
-                    //string insertQuery = "INSERT INTO ProductCart (CustomerID, ProductID, Quantity) VALUES (@CustomerID, @ProductID, 1) ON DUPLICATE KEY UPDATE Quantity = Quantity + 1;";
-                    string insertQuery = @"
-    MERGE INTO ProductCart AS target
-    USING (VALUES (@CustomerID, @ProductID)) AS source(CustomerID, ProductID)
-    ON target.CustomerID = source.CustomerID AND target.ProductID = source.ProductID
-    WHEN MATCHED THEN
-        UPDATE SET Quantity = target.Quantity + 1
-    WHEN NOT MATCHED THEN
-        INSERT (CustomerID, ProductID, Quantity)
-        VALUES (source.CustomerID, source.ProductID, 1);
-";
-                    using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
+                    string conStr = "Data Source=Alasil;Initial Catalog=JOpera;Integrated Security=True";
+                    using (var connection = new SqlConnection(conStr))
                     {
-                        var userId = HttpContext.Session.GetInt32("UserId"); 
+                        connection.Open();
 
-                        cmd.Parameters.AddWithValue("@CustomerID", userId);
-                        cmd.Parameters.AddWithValue("@ProductID", productId);
-
-                        int rowsAffected = cmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
+                        string insertQuery = "INSERT INTO ProductCart (CustomerID, ProductID, Quantity) VALUES (@CustomerID, @ProductID, 1)";
+                        using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
                         {
-                            return RedirectToPage("/ShopCart"); 
-                        }
-                        else
-                        {
-                            return RedirectToPage("/Error"); 
+                            
+
+                            cmd.Parameters.AddWithValue("@CustomerID", userId);
+                            cmd.Parameters.AddWithValue("@ProductID", productId);
+
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                return RedirectToPage("/ShopCart");
+                            }
+                            else
+                            {
+                                return RedirectToPage("/Error");
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return RedirectToPage("/Error");
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return RedirectToPage("/Error");
+                }
             }
         }
+
+        
+
+
         public void GetProduct(string id)
         {
             Con = new SqlConnection(conStr);
